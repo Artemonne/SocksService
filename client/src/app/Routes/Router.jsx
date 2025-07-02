@@ -2,7 +2,8 @@ import { Routes, Route } from 'react-router';
 import Layout from '../Layout/Layout.jsx';
 import BasketPage from '../../Pages/BasketPage';
 import FavouritePage from '../../Pages/FavouritePage.jsx';
-import GenerateSocksPage from '../../Pages/GenerateSocksPage.jsx';
+import GenerateSocksPage from '../../Pages/GenerateSocksPage/GenerateSocksPage.jsx';
+import React from 'react';
 
 export default function Router() {
   return (

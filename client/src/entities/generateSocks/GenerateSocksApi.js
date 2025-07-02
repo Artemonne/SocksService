@@ -1,4 +1,4 @@
-import { axiosInstance } from '../shared/lib/axiosInstance';
+import { axiosInstance } from '../../shared/lib/axiosInstance';
 
 export class GenerateSocksApi {
   static async getOptions() {
