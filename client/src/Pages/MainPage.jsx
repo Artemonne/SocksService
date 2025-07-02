@@ -5,7 +5,7 @@ export default function MainPage() {
   const navigate = useNavigate();
 
   const handlerGenerate = () => {
-    navigate('/ganerateSocks')
+    navigate('/generateSocks')
   }
   return (
     <>
