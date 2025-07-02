@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Basket.init({
-    userId: DataTypes.BIGINT,
-    sockId: DataTypes.BIGINT
+    userId: DataTypes.INTEGER,
+    sockId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Basket',
