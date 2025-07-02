@@ -7,18 +7,21 @@ module.exports = {
       {
         userId: 1,
         sockId: 1,
+        quantity: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 1,
         sockId: 2,
+        quantity: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         userId: 2,
         sockId: 3,
+        quantity: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

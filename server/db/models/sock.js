@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sock.init({
     src: DataTypes.TEXT,
-    code: DataTypes.BIGINT
+    price: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Sock',

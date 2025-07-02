@@ -7,12 +7,17 @@ module.exports = (sequelize, DataTypes) => {
       Basket.belongsTo(models.Sock, { foreignKey: 'sockId' });
     }
   }
-  Basket.init({
-    userId: DataTypes.INTEGER,
+
+  Basket.init(
+    {
+      userId: DataTypes.INTEGER,
     sockId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Basket',
-  });
+      quantity: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: 'Basket',
+    }
+  );
   return Basket;
 };

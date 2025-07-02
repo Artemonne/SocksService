@@ -6,19 +6,19 @@ module.exports = {
     await queryInterface.bulkInsert('Socks', [
       {
         src: '/images/socks1.jpg',
-        code: 1001,
+        price: 1001,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         src: '/images/socks2.jpg',
-        code: 1002,
+        price: 1002,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         src: '/images/socks3.jpg',
-        code: 1003,
+        price: 1003,
         createdAt: new Date(),
         updatedAt: new Date()
       }
