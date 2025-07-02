@@ -1,6 +1,6 @@
 const path = require('path');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({ path: path.resolve(__dirname, '..', '..', '.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 const jwtConfig = require('../configs/jwtConfig');
 
 const generateJWTTokens = (payload) => ({

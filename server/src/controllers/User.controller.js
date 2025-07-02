@@ -1,10 +1,10 @@
+const bcrypt = require('bcrypt');
 const UserService = require('../services/User.service');
-const isValidId = require('../utils/isValid');
-const UserValidator = require('../utils/UserValidator');
 const formatResponse = require('../utils/formatResponse');
 const jwt = require('jsonwebtoken');
 const generateJWTTokens = require('../utils/generateJWTTokens');
-const cookieConfig = require('../configs/cookieConfig')
+const cookieConfig = require('../configs/cookieConfig');
+const { User } = require('../../db/models');
 
 class UserController {
   static async refreshTokens(req, res) {
@@ -39,11 +39,11 @@ class UserController {
   }
 
   static async signUp(req, res) {
-    const { email, username, password } = req.body;
+    const { email, name, password } = req.body;
 
     const { isValid, error } = User.validateSignUpData({
       email,
-      username,
+      name,
       password,
     });
 
@@ -72,7 +72,7 @@ class UserController {
 
       const newUser = await UserService.create({
         email,
-        username,
+        name,
         password,
       });
 
