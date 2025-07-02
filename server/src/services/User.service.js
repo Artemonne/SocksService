@@ -6,7 +6,7 @@ class UserService{
     }
 
     static async getUser(id){
-        return await User.getByPK(id);
+        return await User.findByPk(id);
     }
 
     static async createUser(data){
