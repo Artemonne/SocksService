@@ -38,7 +38,7 @@ export default function SignInForm({ setUser }) {
       setUser(data.user);
       setAccessToken(data.accessToken);
       setInputs(INITIAL_INPUTS_DATA);
-      navigate('/tasks');
+      navigate('/');
     } catch ({ message }) {
       console.log(message);
       alert(message);

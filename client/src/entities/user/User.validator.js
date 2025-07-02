@@ -49,15 +49,15 @@ export class UserValidator {
     };
   }
 
-  static validateSignUpData({ username, email, password }) {
+  static validateSignUpData({ name, email, password }) {
     if (
-      !username ||
-      typeof username !== 'string' ||
-      username.trim().length === 0
+      !name ||
+      typeof name !== 'string' ||
+      name.trim().length === 0
     ) {
       return {
         isValid: false,
-        error: 'поле username не должно быть пустым',
+        error: 'поле name не должно быть пустым',
       };
     }
 

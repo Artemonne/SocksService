@@ -5,7 +5,7 @@ import { UserApi } from '../../../../entities/user/UserApi';
 import { setAccessToken } from '../../../../shared/lib/axiosInstance';
 
 const INITIAL_INPUTS_DATA = {
-  username: '',
+  name: '',
   email: '',
   password: '',
   repeatPassword: '',
@@ -45,7 +45,7 @@ export default function SignUpForm({ setUser }) {
       setUser(data.user);
       setAccessToken(data.accessToken);
       setInputs(INITIAL_INPUTS_DATA);
-      navigate('/tasks');
+      navigate('/');
     } catch ({ message }) {
       console.log(message);
       alert(message);
@@ -55,10 +55,10 @@ export default function SignUpForm({ setUser }) {
   return (
     <form onSubmit={onSubmitHandler}>
       <input
-        placeholder='username'
-        name='username'
+        placeholder='name'
+        name='name'
         required
-        value={inputs.username}
+        value={inputs.name}
         onChange={onChangeHandler}
       />
       <input
