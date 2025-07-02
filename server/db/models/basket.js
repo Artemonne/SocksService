@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   Basket.init(
     {
       userId: DataTypes.INTEGER,
-    sockId: DataTypes.INTEGER
+    sockId: DataTypes.INTEGER,
       quantity: DataTypes.INTEGER,
     },
     {
