@@ -2,7 +2,7 @@ const BasketService = require('../services/basket.service');
 const formatResponse = require('../utils/formatResponse');
 
 class BasketController {
-  async addToBasket(req, res) {
+  static async addToBasket(req, res) {
     const { userId, sockId, price } = req.body;
     try {
       const item = await BasketService.addToBasket(userId, sockId, price);
@@ -25,7 +25,7 @@ class BasketController {
     }
   }
 
-  async updateQuantity(req, res) {
+  static async updateQuantity(req, res) {
     const { userId, sockId, quantity } = req.body;
     try {
       const item = await BasketService.updateQuantity(userId, sockId, quantity);
@@ -45,7 +45,7 @@ class BasketController {
     }
   }
 
-  async getBasket(req, res) {
+  static async getBasket(req, res) {
     const { userId } = req.params;
     try {
       const basket = await BasketService.getBasket(userId);
@@ -69,4 +69,4 @@ class BasketController {
   }
 }
 
-module.exports = BasketController
+module.exports = BasketController;

@@ -1,12 +1,12 @@
 import React from 'react';
 import Router from './Routes/Router';
+import { BrowserRouter } from 'react-router';
 
 function App() {
   return (
-    <>
-      <h1>Привет!</h1>
+    <BrowserRouter>
       <Router />
-    </>
+    </BrowserRouter>
   );
 }
 
