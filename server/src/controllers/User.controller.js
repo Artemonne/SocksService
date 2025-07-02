@@ -2,155 +2,189 @@ const UserService = require('../services/User.service');
 const isValidId = require('../utils/isValid');
 const UserValidator = require('../utils/UserValidator');
 const formatResponse = require('../utils/formatResponse');
+const jwt = require('jsonwebtoken');
+const generateJWTTokens = require('../utils/generateJWTTokens');
+const cookieConfig = require('../configs/cookieConfig')
 
 class UserController {
-  static async getAllUsers(req, res) {
+  static async refreshTokens(req, res) {
     try {
-      const user = await UserService.getAll();
+      const { refreshToken } = req.cookies;
+      const { user } = jwt.verify(
+        refreshToken,
+        process.env.SECRET_REFRESH_TOKEN
+      );
 
-      if (user.length === 0) {
-        return res.status(200).json(formatResponse(200, 'No user found', []));
-      }
-
-      res.status(200).json(formatResponse(200, 'success', user));
-    } catch ({message}) {
-      console.error(message);
+      const { accessToken, refreshToken: newRefreshToken } = generateJWTTokens({
+        user,
+      });
+      return res
+        .status(200)
+        .cookie('refreshToken', newRefreshToken, cookieConfig)
+        .json(
+          formatResponse(200, 'Успешно продлена пользовательская сессия', {
+            user,
+            accessToken,
+          })
+        );
+    } catch ({ message }) {
+      console.log(
+        '=============UserController.refreshTokens=============',
+        message
+      );
       res
-        .status(500)
-        .json(formatResponse(500, 'Internal server error', null, message));
+        .status(401)
+        .json(formatResponse(401, 'Invalid refreshToken', null, message));
     }
   }
 
-  static async getUserById(req, res) {
-    const {id} = req.params;
+  static async signUp(req, res) {
+    const { email, username, password } = req.body;
 
-    if (!isValidId(id)) {
-      return res.status(400).json(formatResponse(400, 'Invalid task ID'));
-    }
-
-    try {
-      const user = await UserService.getUser(+id);
-
-      if (!user) {
-        return res
-          .status(404)
-          .json(formatResponse(404, `user with id ${id} not found`));
-      }
-
-      res.status(200).json(formatResponse(200, 'success', user));
-    } catch ({message}) {
-      console.error(message);
-      res
-        .status(500)
-        .json(formatResponse(500, 'Internal server error', null, message));
-    }
-  }
-
-  static async createUser(req, res) {
-    const {name, email, password} = req.body;
-
-    const {isValid, error} = UserValidator.validate({
-      name,
+    const { isValid, error } = User.validateSignUpData({
       email,
+      username,
       password,
     });
+
     if (!isValid) {
       return res
         .status(400)
         .json(formatResponse(400, 'Validation error', null, error));
     }
 
+    const normalizedEmail = email.toLowerCase();
     try {
-      const newUser = await UserService.createUser({
-        name,
+      const userFound = await UserService.getByEmail(normalizedEmail);
+
+      if (userFound) {
+        return res
+          .status(400)
+          .json(
+            formatResponse(
+              400,
+              'Пользователь с таким email уже существует',
+              null,
+              'Пользователь с таким email уже существует'
+            )
+          );
+      }
+
+      const newUser = await UserService.create({
         email,
+        username,
         password,
       });
 
       if (!newUser) {
         return res
-          .status(400)
-          .json(formatResponse(400, `Failed to create new user`));
+          .status(500)
+          .json(
+            formatResponse(
+              500,
+              'Не удалось создать нового пользователя',
+              null,
+              'Не удалось создать нового пользователя'
+            )
+          );
       }
 
-      delete newUser.password;
-      res.status(201).json(formatResponse(201, 'success', newUser));
-    } catch ({message}) {
-      console.error(message);
+      const { accessToken, refreshToken } = generateJWTTokens({
+        user: newUser,
+      });
+
+      return res
+        .status(201)
+        .cookie('refreshToken', refreshToken, cookieConfig)
+        .json(
+          formatResponse(201, 'Успешная регистрация', {
+            user: newUser,
+            accessToken,
+          })
+        );
+    } catch ({ message }) {
+      console.log('=============UserController.signUp=============', message);
       res
         .status(500)
-        .json(formatResponse(500, 'Internal server error', null, message));
+        .json(formatResponse(500, 'Внутренняя ошибка сервера', null, message));
     }
   }
 
-  static async updateUser(req, res) {
-    const { id } = req.params;
-    const {name, email, password} = req.body;
+  static async signIn(req, res) {
+    const { email, password } = req.body;
 
-    if (!isValidId(id)) {
-      return res.status(400).json(formatResponse(400, 'Invalid task ID'));
-    }
-
-    const {isValid, error} = UserValidator.validate({
-      name,
+    const { isValid, error } = User.validateSignInData({
       email,
       password,
     });
+
     if (!isValid) {
       return res
         .status(400)
         .json(formatResponse(400, 'Validation error', null, error));
     }
 
+    const normalizedEmail = email.toLowerCase();
     try {
-      const updatedUser = await UserService.updateUser(+id, {
-        name,
-        email,
-        password,
-      });
+      const userFound = await UserService.getByEmail(normalizedEmail);
 
-      if (!updatedUser) {
+      if (!userFound) {
         return res
-          .status(404)
-          .json(formatResponse(404, `User with id ${id} not found`));
+          .status(400)
+          .json(
+            formatResponse(
+              400,
+              'Пользователь с таким email не найден',
+              null,
+              'Пользователь с таким email не найден'
+            )
+          );
       }
 
-      delete updatedUser.password;
-      res.status(201).json(formatResponse(201, 'success', updatedUser));
-    } catch ({message}) {
-      console.error(message);
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        userFound.password
+      );
+
+      if (!isPasswordValid) {
+        return res
+          .status(400)
+          .json(
+            formatResponse(400, 'Неверный пароль', null, 'Неверный пароль')
+          );
+      }
+
+      delete userFound.password;
+
+      const { accessToken, refreshToken } = generateJWTTokens({
+        user: userFound,
+      });
+
+      return res
+        .status(200)
+        .cookie('refreshToken', refreshToken, cookieConfig)
+        .json(
+          formatResponse(200, 'Успешный вход', { user: userFound, accessToken })
+        );
+    } catch ({ message }) {
+      console.log('=============UserController.signIn=============', message);
       res
         .status(500)
-        .json(formatResponse(500, 'Internal server error', null, message));
+        .json(formatResponse(500, 'Внутренняя ошибка сервера', null, message));
     }
   }
 
-  static async deleteUser(req, res) {
-    const {id} = req.params;
-
-    if (!isValidId(id)) {
-      return res.status(400).json(formatResponse(400, 'Invalid task ID'));
-    }
-
+  static signOut(req, res) {
     try {
-      const deletedUser = await UserService.deleteUser(+id);
-
-      if (!deletedUser) {
-        return res
-          .status(404)
-          .json(formatResponse(404, `User with id ${id} not found`));
-      }
-
       res
-        .status(200)
-        .json(formatResponse(200, `User with id ${id} successfully deleted`));
-    } catch ({message}) {
-      console.error(message);
+        .clearCookie('refreshToken')
+        .json(formatResponse(200, 'Успешно вышли'));
+    } catch ({ message }) {
+      console.log('=============UserController.signOut=============', message);
       res
         .status(500)
-        .json(formatResponse(500, 'Internal server error', null, message));
+        .json(formatResponse(500, 'Внутренняя ошибка сервера', null, message));
     }
   }
 }
-
 module.exports = UserController;
