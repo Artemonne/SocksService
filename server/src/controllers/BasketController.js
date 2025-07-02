@@ -69,12 +69,15 @@ class BasketController {
     }
   }
 
+
+  //? продолжить
   static async postEmail(req, res) {
-    const orderData = req.body;
+    const { orderData } = req.body;
 
     // Настройка транспорта (пример для Gmail)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
+      port: '625',
       auth: {
         user: 'your.email@gmail.com',
         pass: 'your_app_password',

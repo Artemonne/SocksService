@@ -54,7 +54,7 @@ export default function BasketPage({ userId }) {
 
   if (loading) return <div>Загрузка корзины...</div>;
 
-
+  //? продолжить
   const handleSubmit = async (e) => {
     e.preventDefault(); // отменяем стандартную отправку формы
 
