@@ -4,6 +4,7 @@ const BasketController = require('../controllers/BasketController');
 router
   .post('/', BasketController.addToBasket)
   .put('/quantity', BasketController.updateQuantity)
-  .get('/:userId', BasketController.getBasket);
+  .get('/:userId', BasketController.getBasket)
+  .post('/send-order', BasketController.postEmail)
 
 module.exports = router;
