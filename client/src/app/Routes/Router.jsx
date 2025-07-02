@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router';
 import Layout from '../Layout/Layout.jsx';
 import BasketPage from '../../Pages/BasketPage';
 import FavouritePage from '../../Pages/FavouritePage.jsx';
+import GenerateSocksPage from '../../Pages/GenerateSocksPage.jsx';
 
 export default function Router() {
   return (
@@ -9,6 +10,8 @@ export default function Router() {
       <Route path="/" element={<Layout />}>
         <Route path="/basket" element={<BasketPage />} />
         <Route path="/favourites" element={<FavouritePage />} />
+        <Route path="/generateSocks" element={<GenerateSocksPage/>} />
+
       </Route>
     </Routes>
   );
