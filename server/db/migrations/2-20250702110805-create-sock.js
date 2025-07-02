@@ -12,7 +12,7 @@ module.exports = {
       src: {
         type: Sequelize.STRING
       },
-      code: {
+      price: {
         type: Sequelize.INTEGER
       },
       createdAt: {

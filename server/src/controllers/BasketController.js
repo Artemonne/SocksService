@@ -1,0 +1,72 @@
+const BasketService = require('../services/basket.service');
+const formatResponse = require('../utils/formatResponse');
+
+class BasketController {
+  async addToBasket(req, res) {
+    const { userId, sockId, price } = req.body;
+    try {
+      const item = await BasketService.addToBasket(userId, sockId, price);
+      res
+        .status(201)
+        .json(formatResponse(200, 'Носки добавлены в корзину', item));
+    } catch (error) {
+      console.log(error);
+
+      res
+        .status(500)
+        .json(
+          formatResponse(
+            500,
+            'Не удалось добавить носки в корзину в контроллере',
+            null,
+            error.message
+          )
+        );
+    }
+  }
+
+  async updateQuantity(req, res) {
+    const { userId, sockId, quantity } = req.body;
+    try {
+      const item = await BasketService.updateQuantity(userId, sockId, quantity);
+      res.status(200).json(formatResponse(200, 'Носки обновлены', item));
+    } catch (error) {
+      console.log(error);
+      res
+        .status(404)
+        .json(
+          formatResponse(
+            404,
+            'Не удалось обновить в контроллере',
+            null,
+            error.message
+          )
+        );
+    }
+  }
+
+  async getBasket(req, res) {
+    const { userId } = req.params;
+    try {
+      const basket = await BasketService.getBasket(userId);
+      res
+        .status(200)
+        .json(formatResponse(200, 'Все носки одного в корзине', basket));
+    } catch (error) {
+      console.log(error);
+
+      res
+        .status(500)
+        .json(
+          formatResponse(
+            500,
+            'Не удалось найти все носки одного юзера в корзине в контроллере',
+            null,
+            error.message
+          )
+        );
+    }
+  }
+}
+
+module.exports = BasketController
