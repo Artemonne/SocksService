@@ -6,7 +6,7 @@ const sockRoutes = require('./sock.routes');
 const formatResponse = require('../utils/formatResponse');
 
 router.use('/users', userRoutes);
-router.use('/fav', favouriteRoutes);
+router.use('/favourite', favouriteRoutes);
 router.use('/basket', basketRoutes);
 router.use('/socks', sockRoutes);
 

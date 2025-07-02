@@ -69,4 +69,4 @@ class BasketController {
   }
 }
 
-module.exports = BasketController
+module.exports = BasketController;
