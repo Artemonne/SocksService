@@ -1,36 +1,13 @@
-const {User} = require('../../db/models');
+const { User } = require('../../db/models');
 
-class UserService{
-    static async getAll(){
-        return await User.findAll();
-    }
+class UserService {
+  static async getByEmail(email) {
+    return (await User.findOne({ where: { email } }))?.get();
+  }
 
-    static async getUser(id){
-        return await User.findByPk(id);
-    }
-
-    static async createUser(data){
-        return await User.create(data)
-    } 
-
-    static async updateUser(id, data){
-        const user = await this.getUser(id);
-        if(user){
-            user.name = data.name;
-            user.email = data.email;
-            user.password = data.password;
-            await user.save();
-        }
-        return user;
-    }
-
-    static async deleteUser(id){
-        const user = await this.getUser(id);
-        if(user){
-            await user.destroy();
-        }
-        return user;
-    }
+  static async create(userData) {
+    return await User.create(userData);
+  }
 }
 
 module.exports = UserService;
