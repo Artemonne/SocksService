@@ -1,5 +1,5 @@
+// create-sock.js
 'use strict';
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Socks', {
@@ -9,25 +9,43 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      src: {
-        type: Sequelize.STRING
+      color: {
+        type: Sequelize.ENUM('red', 'blue', 'green'),
+        allowNull: false,
+        defaultValue: 'red'
       },
+      pattern: {
+        type: Sequelize.ENUM('stripes', 'dots', 'waves'),
+        allowNull: false,
+        defaultValue: 'stripes'
+      },
+      image: {
+        type: Sequelize.ENUM('cat', 'dog', 'flower'),
+        allowNull: false,
+        defaultValue: 'cat'
+      },
+      genImage: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
+        defaultValue: Sequelize.fn('NOW')
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
+        defaultValue: Sequelize.fn('NOW')
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Socks');
   }
 };
