@@ -26,7 +26,7 @@ module.exports = {
       },
       genImage: {
         type: Sequelize.TEXT,
-        allowNull: false
+        allowNull: true
       },
 
       price: {
