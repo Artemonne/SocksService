@@ -1,24 +1,32 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Socks', [
       {
-        src: '/images/socks1.jpg',
-        price: 1001,
+        color: 'red',
+        pattern: 'stripes',
+        image: 'cat',
+        genImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...', // пример Base64
+        price: 100,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        src: '/images/socks2.jpg',
-        price: 1002,
+        color: 'blue',
+        pattern: 'dots',
+        image: 'dog',
+        genImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...', // пример Base64
+        price: 150,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        src: '/images/socks3.jpg',
-        price: 1003,
+        color: 'green',
+        pattern: 'waves',
+        image: 'flower',
+        genImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...', // пример Base64
+        price: 120,
         createdAt: new Date(),
         updatedAt: new Date()
       }
