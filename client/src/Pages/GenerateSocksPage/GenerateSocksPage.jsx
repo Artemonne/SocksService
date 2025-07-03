@@ -8,7 +8,7 @@ export default function GenerateSocksPage() {
     patterns: ['stripes', 'dots', 'waves'],
     images: ['cat', 'cucumber', 'flower']
   });
-
+//
   const [design, setDesign] = useState({
     color: 'red',
     pattern: 'stripes',
