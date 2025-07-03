@@ -3,6 +3,7 @@ import { setAccessToken } from '../../shared/lib/axiosInstance';
 import './Header.css';
 import { NavLink } from 'react-router';
 import { React } from 'react';
+import logo from '../../../public/assets/Yuliana.jpg'
 
 export default function Header({ user, setUser }) {
   const signOutHandler = async () => {
@@ -31,6 +32,7 @@ export default function Header({ user, setUser }) {
           Главная
         </NavLink>
       </div>
+      <img src={logo} className='logo' alt='Наикрасивейший логотип'></img>
       <div className="header-right">
         {!user ? (
           <NavLink
