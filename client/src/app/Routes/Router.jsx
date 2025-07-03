@@ -8,6 +8,7 @@ import FavouritePage from '../../Pages/FavouritePage.jsx';
 import AuthPage from '../../Pages/AuthPage/AuthPage.jsx';
 import GenerateSocksPage from '../../Pages/GenerateSocksPage/GenerateSocksPage.jsx';
 import MainPage from '../../Pages/MainPage.jsx';
+import NotFoundPage from '../../Pages/NotFoundPage/NotFoundPage.jsx';
 
 export default function Router() {
   const [user, setUser] = useState(null);
@@ -34,8 +35,10 @@ export default function Router() {
         <Route
           path="/generateSocks"
           element={<GenerateSocksPage  />}
+          
         />
       </Route>
+        <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
