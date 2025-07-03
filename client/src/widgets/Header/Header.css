@@ -1,0 +1,43 @@
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  background-color: rgba(176, 176, 176, 0.705);
+}
+
+.header_link {
+  color: rgb(27, 27, 27);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.header_link:hover {
+  background-color: rgba(122, 122, 122, 0.705);
+}
+
+.header_link--active {
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+}
+
+.logout-button {
+  color: rgb(27, 27, 27);
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: rgb(252, 246, 246);
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: rgba(122, 122, 122, 0.705);
+}
+
+.logout-button--active {
+  color: white;
+  background-color: black;
+  border-radius: 4px;
+}

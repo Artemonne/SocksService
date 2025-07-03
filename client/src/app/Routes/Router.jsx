@@ -23,7 +23,7 @@ export default function Router() {
   
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Layout user={user} setUser={setUser} />}>
         <Route path="/" element={<MainPage />} />
         <Route path="/basket" element={<BasketPage />} />
         <Route path="/favourites" element={<FavouritePage />} />
