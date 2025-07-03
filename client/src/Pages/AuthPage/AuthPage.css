@@ -126,7 +126,7 @@ body {
 
 .main-description-frame h3 {
   margin: 0;
-  color: #B7A8AF;
+  color: #be92a6;
   font-size: 1.3rem;
   font-weight: 700;
 }
@@ -135,9 +135,9 @@ body {
   display: block;
   margin: 0 auto;
   padding: 1.2rem 2.8rem;
-  background: #F6D9DD;
+  background: #ffc2d4;
   color: #fff;
-  border: 2.5px solid #F6B1C3;
+  border: 2.5px solid #f8a6bc;
   border-radius: 16px;
   font-size: 1.35rem;
   font-weight: 800;
