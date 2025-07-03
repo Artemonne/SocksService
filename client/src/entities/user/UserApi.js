@@ -20,4 +20,9 @@ export class UserApi {
     const { data } = await axiosInstance.get('/auth/signOut');
     return data;
   }
+
+  static async getMe () {
+    const userMe = await axiosInstance.get('/auth/me')
+    return userMe
+  }
 }

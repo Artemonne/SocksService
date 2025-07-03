@@ -1,9 +1,8 @@
 import { axiosInstance } from '../../shared/lib/axiosInstance';
 
 export class BasketApi {
-  static async addToBasket(userId, sockId) {
-    const payload = { userId, sockId };
-    const { data } = await axiosInstance.post('/basket/', payload);
+  static async addToBasket(dataMe) {
+    const { data } = await axiosInstance.post('/basket', dataMe);
     return data;
   }
 

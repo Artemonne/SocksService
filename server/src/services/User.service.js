@@ -8,6 +8,8 @@ class UserService {
   static async create(userData) {
     return await User.create(userData);
   }
+
+  
 }
 
 module.exports = UserService;
