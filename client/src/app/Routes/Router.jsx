@@ -40,15 +40,15 @@ export default function Router() {
             path="/basket" 
             element={
               <PageTransition>
-                <BasketPage >
+                <BasketPage user={user}/>
               </PageTransition>
             } 
           />
           <Route 
             path="/favourites" 
             element={
-              <PageTransition>user={user}/
-                <FavouritePage user={user}//>
+              <PageTransition>
+                <FavouritePage user={user}/>
               </PageTransition>
             } 
           />
