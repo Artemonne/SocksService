@@ -27,7 +27,7 @@
 }
 
 .signup-form button {
-  background: linear-gradient(90deg, #F6D9DD 0%, #B7A8AF 100%);
+  background: #e4c9cd;
   color: #fff;
   border: none;
   border-radius: 0.7rem;
@@ -35,11 +35,10 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px 0 rgba(183, 168, 175, 0.10);
 }
 
 .signup-form button:hover {
-  background: linear-gradient(90deg, #B7A8AF 0%, #F6D9DD 100%);
+  background: #F6D9DD;
   box-shadow: 0 4px 16px 0 rgba(246, 217, 221, 0.15);
 }
