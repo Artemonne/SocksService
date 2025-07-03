@@ -86,7 +86,6 @@ export default function BasketPage({ user }) {
                 borderRadius: 8,
                 padding: 16,
                 marginBottom: 12,
-
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 width: '500px',

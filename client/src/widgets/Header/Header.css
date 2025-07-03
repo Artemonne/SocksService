@@ -1,24 +1,29 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px 40px;
-  background: #F6F8F5;
-  box-shadow: 0 2px 16px rgba(187, 170, 180, 0.10);
+  background: #f6f8f5;
+  box-shadow: 0 2px 16px rgba(187, 170, 180, 0.1);
+  position: relative;
 }
 .header-left {
   display: flex;
   align-items: center;
   gap: 30px;
+  position: absolute;
+  left: 40px;
 }
 .header-right {
   display: flex;
   align-items: center;
   gap: 20px;
+  position: absolute; /* Абсолютное позиционирование */
+  right: 40px;
 }
 
 .header_link {
-  color: #858C92;
+  color: #858c92;
   text-decoration: none;
   padding: 7px 18px;
   border-radius: 8px;
@@ -28,18 +33,18 @@
 }
 
 .header_link:hover {
-  background: #F6D9DD;
-  color: #B7A8AF;
+  background: #f6d9dd;
+  color: #b7a8af;
 }
 
 .header_link--active {
   color: #fff;
-  background: #B7A8AF;
+  background: #b7a8af;
   border-radius: 8px;
 }
 
 .logout-button {
-  color: #858C92;
+  color: #858c92;
   padding: 7px 18px;
   border-radius: 8px;
   background: #fff;
@@ -51,19 +56,41 @@
 }
 
 .logout-button:hover {
-  background: #F6D9DD;
-  color: #B7A8AF;
+  background: #f6d9dd;
+  color: #b7a8af;
 }
 
 .logout-button--active {
   color: #fff;
-  background: #B7A8AF;
+  background: #b7a8af;
   border-radius: 8px;
 }
 
-.logo{
+.logo {
   height: 140px;
   width: 140px;
-  border-radius:100px;
-  margin-left: 20px;
+  border-radius: 100px;
+}
+.span {
+  position: relative;
+}
+.thread {
+  position: absolute;
+  right: calc(100% - 43px);
+  top: 5px;
+  height: 27px;
+  width: 27px;
+}
+
+.thread-link {
+  padding: 7px 31px;
+}
+
+.emoji .header_link--active {
+  background: #008080;
+  /* filter: brightness(1000%) saturate(0%); */
+}
+
+.thread-active {
+  padding: 7px 31px;
 }
