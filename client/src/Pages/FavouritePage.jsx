@@ -37,7 +37,16 @@ export default function FavouritePage({ user }) {
 
   return (
     <>
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+      <div
+        style={{
+          maxWidth: 900,
+          margin: '0 auto',
+          padding: 24,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <h2>Избранное</h2>
       </div>
 
@@ -51,7 +60,7 @@ export default function FavouritePage({ user }) {
           flexWrap: 'wrap', // <-- добавьте это
           alignItems: 'center',
           gap: '10px',
-          justifyContent: 'space-around'
+          justifyContent: 'space-around',
         }}
       >
         {!favourites || favourites.length === 0 ? (
@@ -67,14 +76,12 @@ export default function FavouritePage({ user }) {
                   padding: 16,
                   marginBottom: 12,
                   display: 'flex',
-                  
                 }}
               >
                 <div>
                   <div
                     style={{
                       fontWeight: 500,
-                      
                     }}
                   >
                     {item.Sock
@@ -91,7 +98,23 @@ export default function FavouritePage({ user }) {
                   <div>Цена: {item.price} ₽</div>
                 </div>
                 <div>
-                  <button onClick={() => handleRemoveFavourite(item.id)}>❤️</button>
+                  <button
+                    onClick={() => handleRemoveFavourite(item.id)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '1.5em',
+                      padding: 0,
+                      transition: 'filter 0.2s',
+                    }}
+                    onMouseOver={(e) =>
+                      (e.currentTarget.style.filter = 'brightness(1000%) saturate(0%)')
+                    }
+                    onMouseOut={(e) => (e.currentTarget.style.filter = '')}
+                  >
+                    ❤️
+                  </button>
                 </div>
               </div>
             ))}
