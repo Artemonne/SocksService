@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { BasketApi } from '../entities/basket/BasketApi';
 import { axiosInstance } from '../shared/lib/axiosInstance';
 
-export default function BasketPage({ userId }) {
+export default function BasketPage({ user }) {
+  const userId = user?.id;
   const [basketItems, setBasketItems] = useState({ items: [], total: 0 });
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ open: false, message: '', success: false });
@@ -26,16 +27,16 @@ export default function BasketPage({ userId }) {
     }
   }, [userId]);
 
-  const handleAddToBasket = async (sockId) => {
-    try {
-      await BasketApi.addToBasket(userId, sockId);
-      // Обновить корзину
-      const updated = await BasketApi.getBasket(userId);
-      setBasketItems(updated.data || updated);
-    } catch (error) {
-      console.error('Ошибка при добавлении в корзину', error);
-    }
-  };
+  // const handleAddToBasket = async (sockId) => {
+  //   try {
+  //     await BasketApi.addToBasket(userId, sockId);
+  //     // Обновить корзину
+  //     const updated = await BasketApi.getBasket(userId);
+  //     setBasketItems(updated.data || updated);
+  //   } catch (error) {
+  //     console.error('Ошибка при добавлении в корзину', error);
+  //   }
+  // };
 
   const handleUpdateQuantity = async (sockId, quantity) => {
     try {
@@ -73,26 +74,95 @@ export default function BasketPage({ userId }) {
       ) : (
         <>
           {basketItems.items.map((item) => (
-            <div key={item.id}>
-              <p>{item.name || item.code}</p>
+            <div
+              key={item.id}
+              style={{
+                border: '1px solid #eee',
+                borderRadius: 8,
+                padding: 16,
+                marginBottom: 12,
 
-              <button
-                onClick={() => handleUpdateQuantity(item.sockId, item.quantity + 1)}
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '500px',
+              }}
+            >
+              <div style={{ fontWeight: 500 }}>
+                {(item.Sock && <img src={item.genImage} />) || `Товар #${item.id}`}
+              </div>
+              <div
+                style={{
+                  fontWeight: 500,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
               >
-                +
-              </button>
-              <p>{item.quantity}</p>
-              <button
-                onClick={() => handleUpdateQuantity(item.sockId, item.quantity - 1)}
-                disabled={item.quantity <= 0}
-              >
-                -
-              </button>
-              <p>Сумма: {basketItems.total}</p>
+                <div>
+                  {item.Sock?.genImage && (
+                    <img
+                      src={item.Sock.genImage}
+                      alt="sock"
+                      style={{
+                        width: 80,
+                        height: 80,
+                        margin: '8px 0',
+                        display: 'flex',
+                        flexDirection: 'row',
+                      }}
+                    />
+                  )}
+                </div>
+                <div
+                  style={{
+                    width: 100,
+                    height: 100,
+                    margin: '8px 0',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  Цена: {item.price} ₽
+                </div>
+                <div
+                  style={{
+                    height: '30px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '10px',
+                  }}
+                >
+                  <button
+                    onClick={() => handleUpdateQuantity(item.sockId, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                  <p>{item.quantity}</p>
+                  <button
+                    onClick={() => handleUpdateQuantity(item.sockId, item.quantity - 1)}
+                    disabled={item.quantity <= 0}
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
-          <p>Сумма: {basketItems.total}</p>
-          <button onClick={handleOrder}>Оформить заказ</button>
+          <div style={{
+                    height: '30px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '10px',
+                  }}>
+            <p>Сумма: {basketItems.total}</p>
+            <button onClick={handleOrder}>Оформить заказ</button>
+          </div>
           {modal.open && (
             <div
               style={{

@@ -28,8 +28,8 @@ export default function Router() {
     <Routes>
       <Route path="/" element={<Layout user={user} setUser={setUser} />}>
         <Route path="/" element={<MainPage />} />
-        <Route path="/basket" element={<BasketPage />} />
-        <Route path="/favourites" element={<FavouritePage />} />
+        <Route path="/basket" element={<BasketPage user={user}/>} />
+        <Route path="/favourites" element={<FavouritePage user={user}/>} />
         <Route path="/auth" element={<AuthPage setUser={setUser} />} />
         <Route
           path="/generateSocks"

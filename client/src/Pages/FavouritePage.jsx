@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { FavouriteApi } from '../entities/favourite/FavouriteApi';
 import { UserApi } from '../entities/user/UserApi';
 
-export default function FavouritePage() {
+export default function FavouritePage({ user }) {
+  const userId = user?.id;
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchFavourites() {
-      const userM = await UserApi.getMe();
-      setLoading(true);
       try {
-        const response = await FavouriteApi.getFavourites(userM?.data.id);
+        const response = await FavouriteApi.getFavourites(userId);
         setFavourites(response.data || response);
       } catch (error) {
         console.error('Ошибка при загрузке избранного', error);
@@ -19,15 +18,15 @@ export default function FavouritePage() {
         setLoading(false);
       }
     }
-    if (userM?.data.id) {
+    if (userId) {
       fetchFavourites();
     }
-  }, [userM.data.id]);
+  }, [userId]);
 
   const handleRemoveFavourite = async (sockId) => {
     try {
-      await FavouriteApi.removeFavourite(userM.data.id, sockId);
-      const updated = await FavouriteApi.getFavourites(userM.data.id);
+      await FavouriteApi.removeFavourite(userId, sockId);
+      const updated = await FavouriteApi.getFavourites(userId);
       setFavourites(updated.data || updated);
     } catch (error) {
       console.error('Ошибка при удалении из избранного', error);
@@ -58,13 +57,22 @@ export default function FavouritePage() {
             >
               <div>
                 <div style={{ fontWeight: 500 }}>
-                  {item.name || item.code || `Товар #${item.id}`}
+                  {item.Sock
+                    ? `${item.Sock.color} / ${item.Sock.pattern} / ${item.Sock.image}`
+                    : <img src={item.genImage}/> || `Товар #${item.id}`}
                 </div>
+                {item.Sock?.genImage && (
+                  <img
+                    src={item.Sock.genImage}
+                    alt="sock"
+                    style={{ width: 80, height: 100, margin: '8px 0' }}
+                  />
+                )}
                 <div>Цена: {item.price} ₽</div>
               </div>
               <div>
                 <button onClick={() => handleRemoveFavourite(item.id)}>
-                  Удалить из избранного
+                  ❤️
                 </button>
               </div>
             </div>

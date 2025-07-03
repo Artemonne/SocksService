@@ -4,6 +4,7 @@ import './GenerateSocksPage.css';
 import { FavouriteApi } from '../../entities/favourite/FavouriteApi';
 import { BasketApi } from '../../entities/basket/BasketApi';
 import { UserApi } from '../../entities/user/UserApi';
+import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
@@ -23,6 +24,8 @@ export default function GenerateSocksPage() {
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [isUser, setIsUser] = useState(null);
   const [isSockId, setIsSockId] = useState(null);
+  const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -155,20 +158,20 @@ export default function GenerateSocksPage() {
         patternImg,
         0,
         0,
-        patternImg.naturalWidth, //* ебаная исходная ширина узора
-        patternImg.naturalHeight, //* ебаная исходная высота узора
+        patternImg.naturalWidth,
+        patternImg.naturalHeight,
         0,
         0,
-        tempCanvas.width / 0.78, //* ебаная ширина узора
-        tempCanvas.height / 0.763, //* ебаная высота узора
+        tempCanvas.width / 0.78,
+        tempCanvas.height / 0.763,
       );
       tempCtx.globalCompositeOperation = 'source-over';
 
       const positions = [
-        { x: 40, y: 80.5, rotation: 5 }, //* ебаный рисунок у пальцев
-        { x: 55, y: 26, rotation: 5 }, //* ебаный рисунок сверху
-        { x: 43, y: 60, rotation: -10 }, //* ебаный рисунок напротив пятки
-        { x: 61, y: 54, rotation: 5 }, //* ебаный рисунок у пятки
+        { x: 40, y: 80.5, rotation: 5 },
+        { x: 55, y: 26, rotation: 5 },
+        { x: 43, y: 60, rotation: -10 },
+        { x: 61, y: 54, rotation: 5 },
       ];
 
       positions.forEach((pos) => {
@@ -179,13 +182,7 @@ export default function GenerateSocksPage() {
         tempCtx.save();
         tempCtx.translate(x, y);
         tempCtx.rotate((pos.rotation * Math.PI) / 180);
-        tempCtx.drawImage(
-          imageImg,
-          -size / 2,
-          -size / 2,
-          size * 1.35, //* ебаная ширина рисунка
-          size * 0.96,
-        ); //* ебаная высота рисунка;
+        tempCtx.drawImage(imageImg, -size / 2, -size / 2, size * 1.35, size * 0.96);
         tempCtx.restore();
       });
 
@@ -205,7 +202,6 @@ export default function GenerateSocksPage() {
       setIsUser(userM.data.data.id);
 
       console.log('Дизайн сохранен успешно!');
-      
     } catch (error) {
       console.error('Ошибка сохранения:', error);
       alert('Ошибка при сохранении дизайна: ' + error.message);
@@ -213,13 +209,32 @@ export default function GenerateSocksPage() {
   };
 
   const addFav = async () => {
-    const data = { userId: isUser, sockId: isSockId };
-    await FavouriteApi.addFavourite(data);
+    try {
+      const data = { userId: isUser, sockId: isSockId };
+      await FavouriteApi.addFavourite(data);
+
+      setToastMessage('Товар добавлен в избранное!');
+      setShowToast(true);
+    } catch (error) {
+      console.log(error);
+
+      setToastMessage('Ошибка при добавлении в избранное');
+      setShowToast(true);
+    }
   };
 
   const addBasket = async () => {
-    const data = { userId: isUser, sockId: isSockId, price: 1000 };
-    await BasketApi.addToBasket(data);
+    try {
+      const data = { userId: isUser, sockId: isSockId, price: 1000 };
+      await BasketApi.addToBasket(data);
+
+      setToastMessage('Товар добавлен в корзину!');
+      setShowToast(true);
+    } catch (error) {
+      console.log(error);
+      setToastMessage('Ошибка при добавлении в корзину');
+      setShowToast(true);
+    }
   };
 
   return (
@@ -280,20 +295,10 @@ export default function GenerateSocksPage() {
         >
           {isGenerating ? 'Генерация...' : 'Сгенерировать'}
         </button>
-        <button
-          onClick={() => {
-            addFav();
-          }}
-          disabled={!preview || isGenerating || !imagesLoaded}
-        >
+        <button onClick={addFav} disabled={!preview || isGenerating || !imagesLoaded}>
           ❤️
         </button>
-        <button
-          onClick={() => {
-            addBasket();
-          }}
-          disabled={!preview || isGenerating || !imagesLoaded}
-        >
+        <button onClick={addBasket} disabled={!preview || isGenerating || !imagesLoaded}>
           🛒
         </button>
       </div>
@@ -304,6 +309,13 @@ export default function GenerateSocksPage() {
           {preview || <p>Выберите параметры и нажмите "Сгенерировать"</p>}
         </div>
       </div>
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          duration={3000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 }
