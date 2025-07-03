@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GenerateSocksApi } from '../../entities/generateSocks/GenerateSocksApi';
 import './GenerateSocksPage.css';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
-    colors: ['red', 'blue', 'green'],
+    colors: ['red', 'blue', 'pink'],
     patterns: ['stripes', 'dots', 'waves'],
-    images: ['cat', 'dog', 'flower']
+    images: ['cat', 'cucumber', 'flower']
   });
 
   const [design, setDesign] = useState({
@@ -17,30 +17,103 @@ export default function GenerateSocksPage() {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      try {
+        await Promise.all([
+          loadImage(`/assets/patterns/${design.pattern}.png`),
+          loadImage(`/assets/images/${design.image}.png`),
+          loadImage('/assets/sock-outline.png')
+        ]);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error('Error loading images:', error);
+        setImagesLoaded(false);
+      }
+    };
+
+    loadImages();
+  }, [design.pattern, design.image]);
+
+  const loadImage = (src) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => resolve(img);
+      img.onerror = (err) => {
+        console.error(`Failed to load image: ${src}`);
+        reject(err);
+      };
+    });
+  };
 
   const generatePreview = () => {
+    if (!imagesLoaded) {
+      alert('Изображения еще загружаются. Пожалуйста, подождите.');
+      return;
+    }
+
     setIsGenerating(true);
     
     setTimeout(() => {
+      const imageElements = [];
+      const positions = [
+        // Оптимальные позиции для 4 рисунков
+        { x: 43, y: 45, rotation: -10 },  // Левый верх
+        { x: 60, y: 40, rotation: 10 },   // Правый верх
+        { x: 40, y: 60, rotation: -15 },  // Левый низ
+        { x: 55, y: 20, rotation: 10 }    // Правый низ
+      ];
+      
+      positions.forEach((pos, i) => {
+        imageElements.push(
+          <img
+            key={i}
+            className="sock-image-layer"
+            src={`/assets/images/${design.image}.png`}
+            alt=""
+            style={{
+              width: '35px',
+              height: '35px',
+              left: `${pos.x}%`,
+              top: `${pos.y}%`,
+              transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`
+            }}
+            onError={(e) => { 
+              console.error('Error loading image:', e.target.src);
+              e.target.style.display = 'none';
+            }}
+          />
+        );
+      });
+
       setPreview(
-        <div className="sock-preview">
-          <div className="sock-outline-container">
-            <div 
-              className="sock-color-layer"
-              style={{ backgroundColor: design.color }}
-            ></div>
-            <div 
-              className="sock-pattern-layer"
-              style={{ 
-                backgroundImage: `url(/assets/patterns/${design.pattern}.png)`,
-                backgroundSize: 'cover'
-              }}
-            ></div>
+        <div className="sock-preview-container">
+          <div className="sock-mask-wrapper">
+            <div className="sock-layers">
+              <div 
+                className="sock-color-layer"
+                style={{ backgroundColor: design.color }}
+              />
+              <div 
+                className="sock-pattern-layer"
+                style={{ 
+                  backgroundImage: `url(/assets/patterns/${design.pattern}.png)`,
+                  backgroundSize: 'cover'
+                }}
+              />
+              {imageElements}
+            </div>
             <img
-              className="sock-image-layer"
-              src={`/assets/images/${design.image}.png`}
+              className="sock-mask"
+              src="/assets/sock-outline.png"
               alt=""
-              onError={(e) => { e.target.style.display = 'none' }}
+              onError={(e) => {
+                console.error('Error loading sock outline:', e.target.src);
+                e.target.style.display = 'none';
+              }}
             />
           </div>
         </div>
@@ -56,20 +129,10 @@ export default function GenerateSocksPage() {
       canvas.width = 300;
       canvas.height = 400;
       
-      const loadImage = (src) => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = () => resolve(img);
-          img.onerror = reject;
-          img.crossOrigin = 'Anonymous';
-        });
-      };
-
-      const [sockOutline, patternImg, imageImg] = await Promise.all([
-        loadImage('/assets/sock-outline.png'),
+      const [patternImg, imageImg, sockOutline] = await Promise.all([
         loadImage(`/assets/patterns/${design.pattern}.png`),
-        loadImage(`/assets/images/${design.image}.png`)
+        loadImage(`/assets/images/${design.image}.png`),
+        loadImage('/assets/sock-outline.png')
       ]);
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -81,16 +144,35 @@ export default function GenerateSocksPage() {
       
       tempCtx.fillStyle = design.color;
       tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-      tempCtx.drawImage(patternImg, 0, 0, tempCanvas.width, tempCanvas.height);
       
-      const imgSize = 80;
-      tempCtx.drawImage(
-        imageImg, 
-        tempCanvas.width/2 - imgSize/2, 
-        tempCanvas.height/2 - imgSize/2, 
-        imgSize, 
-        imgSize
-      );
+      tempCtx.globalAlpha = 0.8;
+      tempCtx.drawImage(patternImg, 0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.globalAlpha = 1.0;
+      
+      const positions = [
+        { x: 40, y: 40, rotation: -10 },
+        { x: 60, y: 40, rotation: 10 },
+        { x: 40, y: 60, rotation: -15 },
+        { x: 60, y: 60, rotation: 15 }
+      ];
+      
+      positions.forEach(pos => {
+        const size = 35;
+        const x = (pos.x/100) * tempCanvas.width;
+        const y = (pos.y/100) * tempCanvas.height;
+        
+        tempCtx.save();
+        tempCtx.translate(x, y);
+        tempCtx.rotate(pos.rotation * Math.PI / 180);
+        tempCtx.drawImage(
+          imageImg, 
+          -size/2, 
+          -size/2, 
+          size, 
+          size
+        );
+        tempCtx.restore();
+      });
       
       ctx.drawImage(sockOutline, 0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-in';
@@ -106,7 +188,7 @@ export default function GenerateSocksPage() {
       alert('Дизайн сохранен успешно!');
     } catch (error) {
       console.error('Ошибка сохранения:', error);
-      alert('Ошибка при сохранении дизайна');
+      alert('Ошибка при сохранении дизайна: ' + error.message);
     }
   };
 
@@ -161,13 +243,13 @@ export default function GenerateSocksPage() {
       <div className="actions">
         <button 
           onClick={generatePreview}
-          disabled={isGenerating}
+          disabled={isGenerating || !imagesLoaded}
         >
           {isGenerating ? 'Генерация...' : 'Сгенерировать'}
         </button>
         <button 
           onClick={handleSave} 
-          disabled={!preview || isGenerating}
+          disabled={!preview || isGenerating || !imagesLoaded}
         >
           Сохранить дизайн
         </button>
