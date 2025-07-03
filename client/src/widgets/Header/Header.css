@@ -83,7 +83,7 @@
 }
 
 .thread-link {
-  padding: 7px 31px !important;
+  padding: 7px 31px;
 }
 
 .emoji .header_link--active {
@@ -91,5 +91,5 @@
 }
 
 .thread-active {
-  padding: 7px 31px !important;
+  padding: 7px 31px;
 }
