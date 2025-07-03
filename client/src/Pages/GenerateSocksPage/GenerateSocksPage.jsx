@@ -204,7 +204,8 @@ export default function GenerateSocksPage() {
       setIsSockId(newSock.data.id);
       setIsUser(userM.data.data.id);
 
-      alert('Дизайн сохранен успешно!');
+      console.log('Дизайн сохранен успешно!');
+      
     } catch (error) {
       console.error('Ошибка сохранения:', error);
       alert('Ошибка при сохранении дизайна: ' + error.message);
