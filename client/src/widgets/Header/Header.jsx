@@ -60,7 +60,7 @@ export default function Header({ user, setUser }) {
                 `header_link ${isActive ? 'header_link--active' : ''}`
               }
             >
-              <span>❤️</span>
+              {({isActive}) => <span>{isActive? '❤️': '🖤'}</span>}
             </NavLink>
             <NavLink
               to="/basket"
