@@ -6,6 +6,9 @@ import { axiosInstance } from '../shared/lib/axiosInstance';
 
 export default function BasketPage({ user }) {
   const userId = user?.id;
+  const userName = user?.name;
+  const userEmail = user?.email;
+
   const [basketItems, setBasketItems] = useState({ items: [], total: 0 });
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ open: false, message: '', success: false });
@@ -54,10 +57,12 @@ export default function BasketPage({ user }) {
   const handleOrder = async () => {
     try {
       const orderData = {
-        user: { id: userId, name: 'Имя', email: 'email' }, // заполните актуальными данными
+        user: { id: userId, name: userName, email: userEmail }, // заполните актуальными данными
         items: basketItems.items,
         total: basketItems.total,
       };
+      console.log(orderData, '***************')
+     
       await axiosInstance.post('/order', orderData);
       setModal({ open: true, message: 'Заказ успешно отправлен!', success: true });
     } catch (error) {
@@ -151,14 +156,16 @@ export default function BasketPage({ user }) {
               </div>
             </div>
           ))}
-          <div style={{
-                    height: '30px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: '10px',
-                  }}>
+          <div
+            style={{
+              height: '30px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '10px',
+            }}
+          >
             <p>Сумма: {basketItems.total}</p>
             <button onClick={handleOrder}>Оформить заказ</button>
           </div>

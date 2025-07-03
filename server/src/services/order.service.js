@@ -15,26 +15,28 @@ exports.sendOrderMail = async (orderData) => {
   const itemList = items
     .map(
       (item) =>
-        `- ${item.name || item.genImage} (id: ${item.sockId}): ${
-          item.quantity
-        } x ${item.price}₽`
+        `
+      <div>
+      <img src="${item.Sock.genImage}" alt="sock image" style="width:100px; height:auto" /> 
+      <p>Количество: ${item.quantity} | Стоимость: ${item.price}₽ | Сумма: ${item.quantity*item.price}₽</p>
+      </div>`
     )
-    .join('\n');
+    .join('');
 
   const mailOptions = {
     from: 'office-socks@mail.ru',
     to: 'office-socks@mail.ru',
     subject: `Новый заказ от ${user.name || user.email || user.id}`,
-    text: `
-      Данные пользователя:
-      Имя: ${user.name || '-'}
-      Email: ${user.email || '-'}
-      ID: ${user.id || '-'}
+    html: `
+      
+    <h2>Данные пользователя:</h2>
+    <p>Имя: ${user.name || '-'} ❤️</p>
+    <p>Email: ${user.email || '-'}</p>
 
-      Товары:
-      ${itemList}
+    <h2>Товары:</h2>
+    ${itemList}
 
-      Сумма заказа: ${total}₽
+    <h3>Сумма заказа: ${total}₽</h3>
     `,
   };
   await transporter.sendMail(mailOptions);
