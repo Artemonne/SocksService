@@ -6,7 +6,6 @@ import { React } from 'react';
 import logo from '../../../public/assets/Yuliana.jpg'
 
 export default function Header({ user, setUser }) {
-
   const signOutHandler = async () => {
     try {
       const { statusCode, error, message } = await UserApi.signOut();
@@ -45,12 +44,27 @@ export default function Header({ user, setUser }) {
             Аутентификация
           </NavLink>
         ) : (
-          <button
-            onClick={signOutHandler}
-            className='logout-button'
-          >
-            Выход
-          </button>
+          <>
+           <NavLink
+              to="/favourites"
+              className={({ isActive }) =>
+                `header_link ${isActive ? 'header_link--active' : ''}`
+              }
+            >
+              <span>❤️</span>
+            </NavLink>
+            <NavLink
+              to="/basket"
+              className={({ isActive }) =>
+                `header_link ${isActive ? 'header_link--active' : ''}`
+              }
+            >
+              <span>🛒</span>
+            </NavLink>
+            <button onClick={signOutHandler} className="logout-button">
+              Выход
+            </button>
+          </>
         )}
       </div>
     </header>

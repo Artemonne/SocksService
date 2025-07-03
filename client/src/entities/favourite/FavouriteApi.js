@@ -1,10 +1,9 @@
 import { axiosInstance } from '../../shared/lib/axiosInstance';
 
 export class FavouriteApi {
-  static async addFavourite(userId, sockId) {
-    const payload = { userId };
-    const { data } = await axiosInstance.post(`/favourite/${sockId}`, payload);
-    return data;
+  static async addFavourite(data) {
+    const { dataMe } = await axiosInstance.post(`/favourite`, data);
+    return dataMe;
   }
 
   static async removeFavourite(userId, sockId) {

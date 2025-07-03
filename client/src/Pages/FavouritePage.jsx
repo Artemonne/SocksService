@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FavouriteApi } from '../entities/favourite/FavouriteApi';
+import { UserApi } from '../entities/user/UserApi';
 
-export default function FavouritePage({ userId }) {
+export default function FavouritePage() {
   const [favourites, setFavourites] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchFavourites() {
+      const userM = await UserApi.getMe();
       setLoading(true);
       try {
-        const response = await FavouriteApi.getFavourites(userId);
+        const response = await FavouriteApi.getFavourites(userM?.data.id);
         setFavourites(response.data || response);
       } catch (error) {
         console.error('Ошибка при загрузке избранного', error);
@@ -17,15 +19,15 @@ export default function FavouritePage({ userId }) {
         setLoading(false);
       }
     }
-    if (userId) {
+    if (userM?.data.id) {
       fetchFavourites();
     }
-  }, [userId]);
+  }, [userM.data.id]);
 
   const handleRemoveFavourite = async (sockId) => {
     try {
-      await FavouriteApi.removeFavourite(userId, sockId);
-      const updated = await FavouriteApi.getFavourites(userId);
+      await FavouriteApi.removeFavourite(userM.data.id, sockId);
+      const updated = await FavouriteApi.getFavourites(userM.data.id);
       setFavourites(updated.data || updated);
     } catch (error) {
       console.error('Ошибка при удалении из избранного', error);

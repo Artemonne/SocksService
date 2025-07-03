@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { GenerateSocksApi } from '../../entities/generateSocks/GenerateSocksApi';
 import './GenerateSocksPage.css';
+import { FavouriteApi } from '../../entities/favourite/FavouriteApi';
+import { BasketApi } from '../../entities/basket/BasketApi';
+import { UserApi } from '../../entities/user/UserApi';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
     colors: ['red', 'blue', 'pink'],
     patterns: ['stripes', 'dots', 'waves'],
-    images: ['cat', 'cucumber', 'flower']
+    images: ['cat', 'cucumber', 'flower'],
   });
-//
+  //
   const [design, setDesign] = useState({
     color: 'red',
     pattern: 'stripes',
-    image: 'cat'
+    image: 'cat',
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [preview, setPreview] = useState(null);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isUser, setIsUser] = useState(null);
+  const [isSockId, setIsSockId] = useState(null);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -25,7 +30,7 @@ export default function GenerateSocksPage() {
         await Promise.all([
           loadImage(`/assets/patterns/${design.pattern}.png`),
           loadImage(`/assets/images/${design.image}.png`),
-          loadImage('/assets/sock-outline.png')
+          loadImage('/assets/sock-outline.png'),
         ]);
         setImagesLoaded(true);
       } catch (error) {
@@ -56,17 +61,17 @@ export default function GenerateSocksPage() {
     }
 
     setIsGenerating(true);
-    
+
     setTimeout(() => {
       const imageElements = [];
       const positions = [
         // Оптимальные позиции для 4 рисунков
-        { x: 43, y: 45, rotation: -10 },  // Левый верх
-        { x: 60, y: 40, rotation: 10 },   // Правый верх
-        { x: 40, y: 60, rotation: -15 },  // Левый низ
-        { x: 55, y: 20, rotation: 10 }    // Правый низ
+        { x: 43, y: 45, rotation: -10 }, // Левый верх
+        { x: 60, y: 40, rotation: 10 }, // Правый верх
+        { x: 40, y: 60, rotation: -15 }, // Левый низ
+        { x: 55, y: 20, rotation: 10 }, // Правый низ
       ];
-      
+
       positions.forEach((pos, i) => {
         imageElements.push(
           <img
@@ -79,13 +84,13 @@ export default function GenerateSocksPage() {
               height: '35px',
               left: `${pos.x}%`,
               top: `${pos.y}%`,
-              transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`
+              transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
             }}
-            onError={(e) => { 
+            onError={(e) => {
               console.error('Error loading image:', e.target.src);
               e.target.style.display = 'none';
             }}
-          />
+          />,
         );
       });
 
@@ -93,15 +98,15 @@ export default function GenerateSocksPage() {
         <div className="sock-preview-container">
           <div className="sock-mask-wrapper">
             <div className="sock-layers">
-              <div 
+              <div
                 className="sock-color-layer"
                 style={{ backgroundColor: design.color }}
               />
-              <div 
+              <div
                 className="sock-pattern-layer"
-                style={{ 
+                style={{
                   backgroundImage: `url(/assets/patterns/${design.pattern}.png)`,
-                  backgroundSize: 'cover'
+                  backgroundSize: 'cover',
                 }}
               />
               {imageElements}
@@ -116,7 +121,7 @@ export default function GenerateSocksPage() {
               }}
             />
           </div>
-        </div>
+        </div>,
       );
       setIsGenerating(false);
     }, 300);
@@ -127,64 +132,78 @@ export default function GenerateSocksPage() {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       canvas.width = 300;
-      canvas.height = 400;
-      
+      canvas.height = 300;
+
       const [patternImg, imageImg, sockOutline] = await Promise.all([
         loadImage(`/assets/patterns/${design.pattern}.png`),
         loadImage(`/assets/images/${design.image}.png`),
-        loadImage('/assets/sock-outline.png')
+        loadImage('/assets/sock-outline.png'),
       ]);
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
       const tempCtx = tempCanvas.getContext('2d');
-      
+
       tempCtx.fillStyle = design.color;
       tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-      
-      tempCtx.globalAlpha = 0.8;
-      tempCtx.drawImage(patternImg, 0, 0, tempCanvas.width, tempCanvas.height);
-      tempCtx.globalAlpha = 1.0;
-      
+
+      tempCtx.globalCompositeOperation = 'multiply';
+      tempCtx.drawImage(
+        patternImg,
+        0,
+        0,
+        patternImg.naturalWidth, //* ебаная исходная ширина узора
+        patternImg.naturalHeight, //* ебаная исходная высота узора
+        0,
+        0,
+        tempCanvas.width / 0.78, //* ебаная ширина узора
+        tempCanvas.height / 0.763, //* ебаная высота узора
+      );
+      tempCtx.globalCompositeOperation = 'source-over';
+
       const positions = [
-        { x: 40, y: 40, rotation: -10 },
-        { x: 60, y: 40, rotation: 10 },
-        { x: 40, y: 60, rotation: -15 },
-        { x: 60, y: 60, rotation: 15 }
+        { x: 40, y: 80.5, rotation: 5 }, //* ебаный рисунок у пальцев
+        { x: 55, y: 26, rotation: 5 }, //* ебаный рисунок сверху
+        { x: 43, y: 60, rotation: -10 }, //* ебаный рисунок напротив пятки
+        { x: 61, y: 54, rotation: 5 }, //* ебаный рисунок у пятки
       ];
-      
-      positions.forEach(pos => {
-        const size = 35;
-        const x = (pos.x/100) * tempCanvas.width;
-        const y = (pos.y/100) * tempCanvas.height;
-        
+
+      positions.forEach((pos) => {
+        const size = 24;
+        const x = (pos.x / 100) * tempCanvas.width;
+        const y = (pos.y / 100) * tempCanvas.height;
+
         tempCtx.save();
         tempCtx.translate(x, y);
-        tempCtx.rotate(pos.rotation * Math.PI / 180);
+        tempCtx.rotate((pos.rotation * Math.PI) / 180);
         tempCtx.drawImage(
-          imageImg, 
-          -size/2, 
-          -size/2, 
-          size, 
-          size
-        );
+          imageImg,
+          -size / 2,
+          -size / 2,
+          size * 1.35, //* ебаная ширина рисунка
+          size * 0.96,
+        ); //* ебаная высота рисунка;
         tempCtx.restore();
       });
-      
+
       ctx.drawImage(sockOutline, 0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-in';
       ctx.drawImage(tempCanvas, 0, 0);
-      
+
       const genImage = canvas.toDataURL('image/png');
-      
-      await GenerateSocksApi.saveDesign({
+
+      const newSock = await GenerateSocksApi.saveDesign({
         ...design,
-        genImage
+        genImage,
       });
-      
+
+      const userM = await UserApi.getMe();
+      setIsSockId(newSock.data.id);
+      setIsUser(userM.data.data.id);
+
       alert('Дизайн сохранен успешно!');
     } catch (error) {
       console.error('Ошибка сохранения:', error);
@@ -192,18 +211,28 @@ export default function GenerateSocksPage() {
     }
   };
 
+  const addFav = async () => {
+    const data = { userId: isUser, sockId: isSockId };
+    await FavouriteApi.addFavourite(data);
+  };
+
+  const addBasket = async () => {
+    const data = { userId: isUser, sockId: isSockId, price: 1000 };
+    await BasketApi.addToBasket(data);
+  };
+
   return (
     <div className="generator-container">
       <h1>Генератор носков</h1>
-      
+
       <div className="controls">
         <div className="control-group">
           <label>Цвет:</label>
-          <select 
+          <select
             value={design.color}
-            onChange={(e) => setDesign({...design, color: e.target.value})}
+            onChange={(e) => setDesign({ ...design, color: e.target.value })}
           >
-            {options.colors.map(color => (
+            {options.colors.map((color) => (
               <option key={color} value={color}>
                 {color.charAt(0).toUpperCase() + color.slice(1)}
               </option>
@@ -213,11 +242,11 @@ export default function GenerateSocksPage() {
 
         <div className="control-group">
           <label>Узор:</label>
-          <select 
+          <select
             value={design.pattern}
-            onChange={(e) => setDesign({...design, pattern: e.target.value})}
+            onChange={(e) => setDesign({ ...design, pattern: e.target.value })}
           >
-            {options.patterns.map(pattern => (
+            {options.patterns.map((pattern) => (
               <option key={pattern} value={pattern}>
                 {pattern.charAt(0).toUpperCase() + pattern.slice(1)}
               </option>
@@ -227,11 +256,11 @@ export default function GenerateSocksPage() {
 
         <div className="control-group">
           <label>Рисунок:</label>
-          <select 
+          <select
             value={design.image}
-            onChange={(e) => setDesign({...design, image: e.target.value})}
+            onChange={(e) => setDesign({ ...design, image: e.target.value })}
           >
-            {options.images.map(image => (
+            {options.images.map((image) => (
               <option key={image} value={image}>
                 {image.charAt(0).toUpperCase() + image.slice(1)}
               </option>
@@ -241,17 +270,30 @@ export default function GenerateSocksPage() {
       </div>
 
       <div className="actions">
-        <button 
-          onClick={generatePreview}
+        <button
+          onClick={() => {
+            generatePreview();
+            handleSave();
+          }}
           disabled={isGenerating || !imagesLoaded}
         >
           {isGenerating ? 'Генерация...' : 'Сгенерировать'}
         </button>
-        <button 
-          onClick={handleSave} 
+        <button
+          onClick={() => {
+            addFav();
+          }}
           disabled={!preview || isGenerating || !imagesLoaded}
         >
-          Сохранить дизайн
+          ❤️
+        </button>
+        <button
+          onClick={() => {
+            addBasket();
+          }}
+          disabled={!preview || isGenerating || !imagesLoaded}
+        >
+          🛒
         </button>
       </div>
 

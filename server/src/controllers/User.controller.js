@@ -20,7 +20,7 @@ class UserController {
       });
       return res
         .status(200)
-        .cookie('refreshToken', newRefreshToken, cookieConfig)
+        .cookie('refreshToken', newRefreshToken, cookieConfig.refresh)
         .json(
           formatResponse(200, 'Успешно продлена пользовательская сессия', {
             user,
@@ -95,7 +95,7 @@ class UserController {
 
       return res
         .status(201)
-        .cookie('refreshToken', refreshToken, cookieConfig)
+        .cookie('refreshToken', refreshToken, cookieConfig.refresh)
         .json(
           formatResponse(201, 'Успешная регистрация', {
             user: newUser,
@@ -179,6 +179,18 @@ class UserController {
       res
         .clearCookie('refreshToken')
         .json(formatResponse(200, 'Успешно вышли'));
+    } catch ({ message }) {
+      console.log('=============UserController.signOut=============', message);
+      res
+        .status(500)
+        .json(formatResponse(500, 'Внутренняя ошибка сервера', null, message));
+    }
+  }
+
+  static  getMe(req, res) {
+    try {
+      const { user } = res.locals;
+      res.status(200).json(formatResponse(200, 'access', user, null));
     } catch ({ message }) {
       console.log('=============UserController.signOut=============', message);
       res

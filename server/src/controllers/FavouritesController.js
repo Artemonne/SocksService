@@ -4,10 +4,10 @@ const formatResponse = require('../utils/formatResponse');
 class FavouritesController {
   static async addFavourite(req, res) {
     try {
-      const { userId } = req.body;
+      const { userId, sockId } = req.body;
       // console.log('--------------,', userId);
 
-      const { sockId } = req.params;
+      
 
       // Проверяем, существует ли уже такая запись
       const existingFavourite = await Favourite.findOne({
