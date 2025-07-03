@@ -76,17 +76,18 @@ class BasketController {
 
     // Настройка транспорта (пример для Gmail)
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      port: '625',
+      host: 'smtp.mail.ru',
+      port: 465,
+      secure: true,
       auth: {
-        user: 'your.email@gmail.com',
-        pass: 'your_app_password',
+        user: 'email',
+        pass: 'password',
       },
     });
 
     const mailOptions = {
       from: 'your.email@gmail.com',
-      to: '79111533013@mail.ru', // куда отправлять заказ
+      to: 'office-socks@mail.ru', // куда отправлять заказ
       subject: 'Новый заказ',
       text: JSON.stringify(orderData, null, 2), // или форматированный текст
     };
