@@ -4,13 +4,13 @@ import './Footer.css';
 export default function Footer() {
   return (
     <footer className="footer">
-      <p>Подвал</p>
-      <div className="mailAndShop">
-        <div>
+      <div className="footer-left"></div>
+      <div className="footer-center">Подвал</div>
+      <div className="footer-right">
+        <div className="footer-support">
           Почта службы поддержки<div>dubai@gmail.com</div>
         </div>
-        <br></br>
-        <span>Адрес магазина: Дубаи</span>
+        <div className="footer-address">Адрес магазина: Dubai</div>
       </div>
     </footer>
   );
