@@ -1,5 +1,6 @@
 const BasketService = require('../services/basket.service');
 const formatResponse = require('../utils/formatResponse');
+const nodemailer = require('nodemailer');
 
 class BasketController {
   static async addToBasket(req, res) {
@@ -65,6 +66,38 @@ class BasketController {
             error.message
           )
         );
+    }
+  }
+
+
+  //? продолжить
+  static async postEmail(req, res) {
+    const { orderData } = req.body;
+
+    // Настройка транспорта (пример для Gmail)
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mail.ru',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'email',
+        pass: 'password',
+      },
+    });
+
+    const mailOptions = {
+      from: 'your.email@gmail.com',
+      to: 'office-socks@mail.ru', // куда отправлять заказ
+      subject: 'Новый заказ',
+      text: JSON.stringify(orderData, null, 2), // или форматированный текст
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      res.status(200).json({ message: 'Заказ отправлен' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Ошибка при отправке письма' });
     }
   }
 }
