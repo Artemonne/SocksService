@@ -22,32 +22,35 @@ export default function Header({ user, setUser }) {
   };
   return (
     <header className="header">
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          `header_link ${isActive ? 'header_link--active' : ''}`
-        }
-      >
-        Главная
-      </NavLink>
-
-      {!user ? (
+      <div className="header-left">
         <NavLink
-          to="/auth"
+          to="/"
           className={({ isActive }) =>
             `header_link ${isActive ? 'header_link--active' : ''}`
           }
         >
-          Аутентификация
+          Главная
         </NavLink>
-      ) : (
-        <button
-          onClick={signOutHandler}
-          className='logout-button'
-        >
-          Выход
-        </button>
-      )}
+      </div>
+      <div className="header-right">
+        {!user ? (
+          <NavLink
+            to="/auth"
+            className={({ isActive }) =>
+              `header_link ${isActive ? 'header_link--active' : ''}`
+            }
+          >
+            Аутентификация
+          </NavLink>
+        ) : (
+          <button
+            onClick={signOutHandler}
+            className='logout-button'
+          >
+            Выход
+          </button>
+        )}
+      </div>
     </header>
   );
 }
