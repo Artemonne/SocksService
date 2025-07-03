@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { UserValidator } from '../../../../entities/user/User.validator';
 import { UserApi } from '../../../../entities/user/UserApi';
 import { setAccessToken } from '../../../../shared/lib/axiosInstance';
+import './SignInForm.css'
 
 const INITIAL_INPUTS_DATA = {
   email: '',
@@ -46,7 +47,7 @@ export default function SignInForm({ setUser }) {
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
+    <form onSubmit={onSubmitHandler} className='signin-form'>
       <input
         placeholder='email'
         type='email'

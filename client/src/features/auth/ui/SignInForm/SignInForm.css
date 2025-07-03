@@ -1,0 +1,44 @@
+.signin-form {
+  background: #F6F8F5;
+  padding: 2.5rem 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px 0 rgba(133, 140, 146, 0.08);
+  max-width: 350px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.signin-form input {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #C0C4C3;
+  border-radius: 0.7rem;
+  background: #fff;
+  color: #858C92;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.signin-form input:focus {
+  outline: none;
+  border: 1.5px solid #F6D9DD;
+  box-shadow: 0 0 0 2px #F6D9DD33;
+}
+
+.signin-form button {
+  background: #e4c9cd;
+  color: #fff;
+  border: none;
+  border-radius: 0.7rem;
+  padding: 0.9rem 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(183, 168, 175, 0.10);
+}
+
+.signin-form button:hover {
+  background: #F6D9DD;
+  box-shadow: 0 4px 16px 0 rgba(246, 217, 221, 0.15);
+}

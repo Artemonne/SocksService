@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import { UserValidator } from '../../../../entities/user/User.validator';
 import { UserApi } from '../../../../entities/user/UserApi';
 import { setAccessToken } from '../../../../shared/lib/axiosInstance';
+import './SignUpForm.css'
 
 const INITIAL_INPUTS_DATA = {
   name: '',
@@ -53,7 +54,7 @@ export default function SignUpForm({ setUser }) {
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
+    <form className='signup-form' onSubmit={onSubmitHandler}>
       <input
         placeholder='name'
         name='name'

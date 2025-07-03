@@ -1,4 +1,4 @@
-.auth-page {
+/* .auth-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,4 +85,4 @@
 .auth-form button[type='submit']:disabled {
   background-color: #6c757d;
   cursor: not-allowed;
-}
+} */
