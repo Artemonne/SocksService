@@ -4,6 +4,7 @@ import './Header.css';
 import { NavLink } from 'react-router';
 import { React } from 'react';
 import logo from '../../../public/assets/Yuliana.jpg'
+import thread from '../../../public/assets/Noto_Emoji_v2.034_1f9f6.svg.png'
 
 export default function Header({ user, setUser }) {
   const signOutHandler = async () => {
@@ -44,7 +45,15 @@ export default function Header({ user, setUser }) {
             Аутентификация
           </NavLink>
         ) : (
-          <>
+          <div className='emoji'>
+          <NavLink
+              to="/generateSocks"
+              className={({ isActive }) =>
+                `header_link thread-link ${isActive ? 'header_link--active thread-active' : ''}`
+              }
+            >
+              <img src={thread} className='thread' alt='a ball of thread'></img>
+            </NavLink>
            <NavLink
               to="/favourites"
               className={({ isActive }) =>
@@ -64,7 +73,7 @@ export default function Header({ user, setUser }) {
             <button onClick={signOutHandler} className="logout-button">
               Выход
             </button>
-          </>
+          </div>
         )}
       </div>
     </header>

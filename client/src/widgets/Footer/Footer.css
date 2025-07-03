@@ -17,7 +17,7 @@
   flex: 1;
   text-align: center;
   font-weight: 700;
-  color: #b7a8af;
+  color: #a0999c;
   font-size: 1.2rem;
 }
 .footer-right {
@@ -35,6 +35,6 @@
   align-items: center;
 }
 .footer-address {
-  color: #b7a8af;
+  color: #858c92;
   font-size: 1rem;
 }
