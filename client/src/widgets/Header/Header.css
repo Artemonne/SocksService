@@ -76,8 +76,20 @@
 }
 .thread {
   position: absolute;
-  right: calc(100% - 28px);
+  right: calc(100% - 43px);
   top: 5px;
   height: 27px;
   width: 27px;
+}
+
+.thread-link {
+  padding: 7px 31px !important;
+}
+
+.emoji .header_link--active {
+  background: #008080;
+}
+
+.thread-active {
+  padding: 7px 31px !important;
 }

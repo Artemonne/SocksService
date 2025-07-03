@@ -49,7 +49,7 @@ export default function Header({ user, setUser }) {
           <NavLink
               to="/generateSocks"
               className={({ isActive }) =>
-                `header_link ${isActive ? 'header_link--active' : ''}`
+                `header_link thread-link ${isActive ? 'header_link--active thread-active' : ''}`
               }
             >
               <img src={thread} className='thread' alt='a ball of thread'></img>
