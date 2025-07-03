@@ -36,49 +36,68 @@ export default function FavouritePage({ user }) {
   if (loading) return <div>Загрузка избранного...</div>;
 
   return (
-    <div style={{ maxWidth: 500, margin: '0 auto', padding: 24 }}>
-      <h2>Избранное</h2>
-      {!favourites || favourites.length === 0 ? (
-        <p>Список избранного пуст</p>
-      ) : (
-        <>
-          {favourites.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                border: '1px solid #eee',
-                borderRadius: 8,
-                padding: 16,
-                marginBottom: 12,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div>
-                <div style={{ fontWeight: 500 }}>
-                  {item.Sock
-                    ? `${item.Sock.color} / ${item.Sock.pattern} / ${item.Sock.image}`
-                    : <img src={item.genImage}/> || `Товар #${item.id}`}
+    <>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: 24, display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+        <h2>Избранное</h2>
+      </div>
+
+      <div
+        style={{
+          maxWidth: 1300,
+          margin: '0 auto',
+          padding: 24,
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap', // <-- добавьте это
+          alignItems: 'center',
+          gap: '10px',
+          justifyContent: 'space-around'
+        }}
+      >
+        {!favourites || favourites.length === 0 ? (
+          <p>Список избранного пуст</p>
+        ) : (
+          <>
+            {favourites.map((item) => (
+              <div
+                key={item.id}
+                style={{
+                  border: '1px solid #eee',
+                  borderRadius: 8,
+                  padding: 16,
+                  marginBottom: 12,
+                  display: 'flex',
+                  
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      fontWeight: 500,
+                      
+                    }}
+                  >
+                    {item.Sock
+                      ? `${item.Sock.color} / ${item.Sock.pattern} / ${item.Sock.image}`
+                      : <img src={item.genImage} /> || `Товар #${item.id}`}
+                  </div>
+                  {item.Sock?.genImage && (
+                    <img
+                      src={item.Sock.genImage}
+                      alt="sock"
+                      style={{ width: 80, height: 100, margin: '8px 0' }}
+                    />
+                  )}
+                  <div>Цена: {item.price} ₽</div>
                 </div>
-                {item.Sock?.genImage && (
-                  <img
-                    src={item.Sock.genImage}
-                    alt="sock"
-                    style={{ width: 80, height: 100, margin: '8px 0' }}
-                  />
-                )}
-                <div>Цена: {item.price} ₽</div>
+                <div>
+                  <button onClick={() => handleRemoveFavourite(item.id)}>❤️</button>
+                </div>
               </div>
-              <div>
-                <button onClick={() => handleRemoveFavourite(item.id)}>
-                  ❤️
-                </button>
-              </div>
-            </div>
-          ))}
-        </>
-      )}
-    </div>
+            ))}
+          </>
+        )}
+      </div>
+    </>
   );
 }
