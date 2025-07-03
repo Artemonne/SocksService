@@ -18,7 +18,7 @@ exports.sendOrderMail = async (orderData) => {
         `
       <div>
       <img src="${item.Sock.genImage}" alt="sock image" style="width:100px; height:auto" /> 
-      <p> id: ${item.sockId}: ${item.quantity} x ${item.price}₽</p>
+      <p>Количество: ${item.quantity} | Стоимость: ${item.price}₽ | Сумма: ${item.quantity*item.price}₽</p>
       </div>`
     )
     .join('');
@@ -30,9 +30,8 @@ exports.sendOrderMail = async (orderData) => {
     html: `
       
     <h2>Данные пользователя:</h2>
-    <p>Имя: ${user.name || '-'}</p>
+    <p>Имя: ${user.name || '-'} ❤️</p>
     <p>Email: ${user.email || '-'}</p>
-    <p>ID: ${user.id || '-'}</p>
 
     <h2>Товары:</h2>
     ${itemList}
