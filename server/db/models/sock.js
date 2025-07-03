@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   Sock.init({
     // Параметры с ENUM-ограничениями
     color: {
-      type: DataTypes.ENUM('red', 'blue', 'green'), // 3 варианта цвета
+      type: DataTypes.ENUM('red', 'blue', 'pink'), // 3 варианта цвета
       allowNull: false,
       defaultValue: 'red'
     },
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 'stripes'
     },
     image: {
-      type: DataTypes.ENUM('cat', 'dog', 'flower'), // 3 варианта картинок
+      type: DataTypes.ENUM('cat', 'cucumber', 'flower'), // 3 варианта картинок
       allowNull: false,
       defaultValue: 'cat'
     },

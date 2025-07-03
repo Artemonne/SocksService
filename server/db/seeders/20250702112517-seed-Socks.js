@@ -15,14 +15,14 @@ module.exports = {
       {
         color: 'blue',
         pattern: 'dots',
-        image: 'dog',
+        image: 'cucumber',
         genImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...', // пример Base64
         price: 150,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        color: 'green',
+        color: 'pink',
         pattern: 'waves',
         image: 'flower',
         genImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...', // пример Base64
