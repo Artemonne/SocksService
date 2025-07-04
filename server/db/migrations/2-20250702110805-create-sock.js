@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       color: {
-        type: Sequelize.ENUM('none', 'red', 'blue', 'pink', 'yellow'),
+        type: Sequelize.ENUM('none', 'red', 'blue', 'pink', 'yellow', 'orange'),
         allowNull: false,
         defaultValue: 'none'
       },

@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sock.init({
     color: {
-      type: DataTypes.ENUM('none', 'red', 'blue', 'pink', 'yellow'),
+      type: DataTypes.ENUM('none', 'red', 'blue', 'pink', 'yellow', 'orange'),
       allowNull: false,
       defaultValue: 'none'
     },
