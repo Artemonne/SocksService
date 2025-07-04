@@ -41,10 +41,11 @@ export default function FavouritePage({ user }) {
         style={{
           maxWidth: 900,
           margin: '0 auto',
-          padding: 24,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          fontFamily: "'Comic Sans MS', cursive",
+          fontSize: '25px',
         }}
       >
         <h2>Избранное</h2>
@@ -105,7 +106,7 @@ export default function FavouritePage({ user }) {
                       fontSize: '18px',
                       position: 'absolute',
                       left: '120px',
-                      bottom: '20px'
+                      bottom: '20px',
                     }}
                   >
                     Цена: {item.price} ₽
