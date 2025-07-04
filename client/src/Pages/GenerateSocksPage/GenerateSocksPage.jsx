@@ -248,6 +248,12 @@ export default function GenerateSocksPage() {
     } catch (error) {
       console.log(error);
 
+      if (error instanceof TypeError && error.message.includes('Cannot destructure')) {
+        setToastMessage('Этот носок уже добавлен в избранное ❤️');
+        setShowToast(true);
+        return;
+      }
+
       setToastMessage('Ошибка при добавлении в избранное');
       setShowToast(true);
     }

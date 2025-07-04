@@ -57,7 +57,7 @@ export default function FavouritePage({ user }) {
           padding: 24,
           display: 'flex',
           flexDirection: 'row',
-          flexWrap: 'wrap', // <-- добавьте это
+          flexWrap: 'wrap',
           alignItems: 'center',
           gap: '10px',
           justifyContent: 'space-around',
