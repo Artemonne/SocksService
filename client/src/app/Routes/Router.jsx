@@ -10,7 +10,7 @@ import AuthPage from '../../Pages/AuthPage/AuthPage.jsx';
 import GenerateSocksPage from '../../Pages/GenerateSocksPage/GenerateSocksPage.jsx';
 import MainPage from '../../Pages/MainPage.jsx';
 import NotFoundPage from '../../Pages/NotFoundPage/NotFoundPage.jsx';
-import  {PageTransition}  from '../../widgets/PageTransition.jsx';
+import { PageTransition } from '../../widgets/PageTransition.jsx';
 
 export default function Router() {
   const [user, setUser] = useState(null);
@@ -25,40 +25,40 @@ export default function Router() {
   }, []);
 
   return (
-    <AnimatePresence mode='wait'>
+    <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Layout user={user} setUser={setUser} />}>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
               <PageTransition>
                 <MainPage />
               </PageTransition>
-            } 
+            }
           />
-          <Route 
-            path="/basket" 
+          <Route
+            path="/basket"
             element={
               <PageTransition>
-                <BasketPage user={user}/>
+                <BasketPage user={user} />
               </PageTransition>
-            } 
+            }
           />
-          <Route 
-            path="/favourites" 
+          <Route
+            path="/favourites"
             element={
               <PageTransition>
-                <FavouritePage user={user}/>
+                <FavouritePage user={user} />
               </PageTransition>
-            } 
+            }
           />
-          <Route 
-            path="/auth" 
+          <Route
+            path="/auth"
             element={
               <PageTransition>
                 <AuthPage setUser={setUser} />
               </PageTransition>
-            } 
+            }
           />
           <Route
             path="/generateSocks"
@@ -69,13 +69,13 @@ export default function Router() {
             }
           />
         </Route>
-        <Route 
-          path="*" 
+        <Route
+          path="*"
           element={
             <PageTransition>
               <NotFoundPage />
             </PageTransition>
-          } 
+          }
         />
       </Routes>
     </AnimatePresence>

@@ -226,6 +226,7 @@ export default function GenerateSocksPage() {
   const addBasket = async () => {
     try {
       const data = { userId: isUser, sockId: isSockId, price: 1000 };
+      console.log(data, '000000000000')
       await BasketApi.addToBasket(data);
 
       setToastMessage('Товар добавлен в корзину!');

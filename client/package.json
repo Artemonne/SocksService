@@ -12,9 +12,11 @@
   "dependencies": {
     "axios": "^1.10.0",
     "framer-motion": "^12.23.0",
+    "js-cookie": "^3.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.6.3"
+    "react-router": "^7.6.3",
+    "react-share": "^5.2.2"
   },
   "devDependencies": {
     "@elbrus/eslint-config": "^1.1.0",

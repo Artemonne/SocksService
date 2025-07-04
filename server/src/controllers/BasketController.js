@@ -1,7 +1,8 @@
 const BasketService = require('../services/basket.service');
 const formatResponse = require('../utils/formatResponse');
 const nodemailer = require('nodemailer');
-
+const { v4: uuidv4 } = require('uuid');
+const { Basket } = require('../../db/models');
 class BasketController {
   static async addToBasket(req, res) {
     const { userId, sockId, price } = req.body;
@@ -69,7 +70,6 @@ class BasketController {
     }
   }
 
-
   //? продолжить
   static async postEmail(req, res) {
     const { orderData } = req.body;
@@ -98,6 +98,58 @@ class BasketController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Ошибка при отправке письма' });
+    }
+  }
+
+  static async shareBasket(req, res) {
+    try {
+      const { items } = req.body;
+
+      if (!items || items.length === 0) {
+        return res.status(400).json({ message: 'Нет товаров для шаринга' });
+      }
+
+      // Для каждого товара генерируем уникальный cartId
+      const sharedItems = items.map((item) => ({
+        sockId: item.sockId,
+        quantity: item.quantity,
+        price: item.price,
+        cartId: uuidv4(), // уникальный для каждого товара
+      }));
+
+      await Basket.bulkCreate(sharedItems);
+
+      // Возвращаем массив cartId для восстановления корзины
+      const cartIds = sharedItems.map((item) => item.cartId);
+
+      res.json({ cartIds });
+    } catch (error) {
+      console.error('Ошибка в shareBasket:', error);
+      res.status(500).json({ message: 'Ошибка сервера' });
+    }
+  }
+
+  static async getSharedBasket(req, res) {
+    try {
+      const { cartIds } = req.body; // массив cartId
+
+      if (!cartIds || cartIds.length === 0) {
+        return res.status(400).json({ message: 'cartIds не переданы' });
+      }
+
+      const items = await Basket.findAll({
+        where: { cartId: cartIds },
+      });
+
+      const total = items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+      );
+
+      res.json({ items, total });
+    } catch (error) {
+      console.error('Ошибка в getSharedBasket:', error);
+      res.status(500).json({ message: 'Ошибка сервера' });
     }
   }
 }
