@@ -1,12 +1,25 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { UserApi } from '../entities/user/UserApi';
 
 export default function MainPage() {
   const navigate = useNavigate();
 
-  const handlerGenerate = () => {
-    navigate('/generateSocks')
-  }
+  const handlerGenerate = async () => {
+    try {
+      const response = await UserApi.getMe();
+      
+      if (response.data && response.data.data) {
+        navigate('/generateSocks');
+      } else {
+        navigate('/auth');
+      }
+    } catch (error) {
+      console.error('Ошибка проверки авторизации:', error);
+      navigate('/auth');
+    }
+  };
+
   return (
     <>
       <div className="main-description-frame">
@@ -16,7 +29,9 @@ export default function MainPage() {
           то, что отражает ваш стиль!
         </h3>
       </div>
-      <button className="main-generate-btn" onClick={handlerGenerate}>Связать свои носки</button>
+      <button className="main-generate-btn" onClick={handlerGenerate}>
+        Связать свои носки
+      </button>
     </>
   );
 }
