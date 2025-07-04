@@ -20,18 +20,18 @@ export default function GenerateSocksPage() {
     },
     patterns: {
       none: 'Без узора',
-      stripes: 'Полоски',
-      dots: 'Точки',
+      stripes: 'В полоску',
+      dots: 'В горошек',
       waves: 'Волны',
-      checkered: 'Клетка'
+      checkered: 'В клеточку'
     },
     images: {
       none: 'Без рисунка',
-      cat: 'Кот',
-      cucumber: 'Огурец',
-      flower: 'Цветок',
-      beer: 'Пиво',
-      heart: 'Сердце'
+      cat: 'Котик',
+      cucumber: 'Огурчик',
+      flower: 'Цветочек',
+      beer: 'Пивко',
+      heart: 'Сердечко'
     }
   };
 
