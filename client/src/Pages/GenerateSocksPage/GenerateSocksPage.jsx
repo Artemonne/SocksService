@@ -8,15 +8,15 @@ import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
-    colors: ['red', 'blue', 'pink'],
-    patterns: ['stripes', 'dots', 'waves'],
-    images: ['cat', 'cucumber', 'flower'],
+    colors: ['none', 'red', 'blue', 'pink'],
+    patterns: ['none', 'stripes', 'dots', 'waves'],
+    images: ['none', 'cat', 'cucumber', 'flower'],
   });
 
   const [design, setDesign] = useState({
-    color: 'red',
-    pattern: 'stripes',
-    image: 'cat',
+    color: 'none',
+    pattern: 'none',
+    image: 'none',
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -30,11 +30,18 @@ export default function GenerateSocksPage() {
   useEffect(() => {
     const loadImages = async () => {
       try {
-        await Promise.all([
-          loadImage(`/assets/patterns/${design.pattern}.png`),
-          loadImage(`/assets/images/${design.image}.png`),
-          loadImage('/assets/sock-outline.png'),
-        ]);
+        const loadPromises = [
+          loadImage('/assets/sock-outline.png')
+        ];
+
+        if (design.pattern !== 'none') {
+          loadPromises.push(loadImage(`/assets/patterns/${design.pattern}.png`));
+        }
+        if (design.image !== 'none') {
+          loadPromises.push(loadImage(`/assets/images/${design.image}.png`));
+        }
+
+        await Promise.all(loadPromises);
         setImagesLoaded(true);
       } catch (error) {
         console.error('Error loading images:', error);
@@ -67,35 +74,37 @@ export default function GenerateSocksPage() {
 
     setTimeout(() => {
       const imageElements = [];
-      const positions = [
-        // Оптимальные позиции для 4 рисунков
-        { x: 43, y: 45, rotation: -10 }, // Левый верх
-        { x: 60, y: 40, rotation: 10 }, // Правый верх
-        { x: 40, y: 60, rotation: -15 }, // Левый низ
-        { x: 55, y: 20, rotation: 10 }, // Правый низ
-      ];
+      
+      if (design.image !== 'none') {
+        const positions = [
+          { x: 43, y: 45, rotation: -10 },
+          { x: 60, y: 40, rotation: 10 },
+          { x: 40, y: 60, rotation: -15 },
+          { x: 55, y: 20, rotation: 10 },
+        ];
 
-      positions.forEach((pos, i) => {
-        imageElements.push(
-          <img
-            key={i}
-            className="sock-image-layer"
-            src={`/assets/images/${design.image}.png`}
-            alt=""
-            style={{
-              width: '35px',
-              height: '35px',
-              left: `${pos.x}%`,
-              top: `${pos.y}%`,
-              transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
-            }}
-            onError={(e) => {
-              console.error('Error loading image:', e.target.src);
-              e.target.style.display = 'none';
-            }}
-          />,
-        );
-      });
+        positions.forEach((pos, i) => {
+          imageElements.push(
+            <img
+              key={i}
+              className="sock-image-layer"
+              src={`/assets/images/${design.image}.png`}
+              alt=""
+              style={{
+                width: '35px',
+                height: '35px',
+                left: `${pos.x}%`,
+                top: `${pos.y}%`,
+                transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
+              }}
+              onError={(e) => {
+                console.error('Error loading image:', e.target.src);
+                e.target.style.display = 'none';
+              }}
+            />,
+          );
+        });
+      }
 
       setPreview(
         <div className="sock-preview-container">
@@ -103,15 +112,20 @@ export default function GenerateSocksPage() {
             <div className="sock-layers">
               <div
                 className="sock-color-layer"
-                style={{ backgroundColor: design.color }}
-              />
-              <div
-                className="sock-pattern-layer"
-                style={{
-                  backgroundImage: `url(/assets/patterns/${design.pattern}.png)`,
-                  backgroundSize: 'cover',
+                style={{ 
+                  backgroundColor: design.color === 'none' ? 'white' : design.color,
+                  opacity: design.color === 'none' ? 0.7 : 1
                 }}
               />
+              {design.pattern !== 'none' && (
+                <div
+                  className="sock-pattern-layer"
+                  style={{
+                    backgroundImage: `url(/assets/patterns/${design.pattern}.png)`,
+                    backgroundSize: 'cover',
+                  }}
+                />
+              )}
               {imageElements}
             </div>
             <img
@@ -137,11 +151,21 @@ export default function GenerateSocksPage() {
       canvas.width = 300;
       canvas.height = 300;
 
-      const [patternImg, imageImg, sockOutline] = await Promise.all([
-        loadImage(`/assets/patterns/${design.pattern}.png`),
-        loadImage(`/assets/images/${design.image}.png`),
-        loadImage('/assets/sock-outline.png'),
-      ]);
+      const loadPromises = [
+        loadImage('/assets/sock-outline.png')
+      ];
+
+      if (design.pattern !== 'none') {
+        loadPromises.push(loadImage(`/assets/patterns/${design.pattern}.png`));
+      }
+      if (design.image !== 'none') {
+        loadPromises.push(loadImage(`/assets/images/${design.image}.png`));
+      }
+
+      const loadedImages = await Promise.all(loadPromises);
+      const sockOutline = loadedImages[0];
+      const patternImg = design.pattern !== 'none' ? loadedImages[1] : null;
+      const imageImg = design.image !== 'none' ? loadedImages[design.pattern !== 'none' ? 2 : 1] : null;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -150,41 +174,47 @@ export default function GenerateSocksPage() {
       tempCanvas.height = canvas.height;
       const tempCtx = tempCanvas.getContext('2d');
 
-      tempCtx.fillStyle = design.color;
+      tempCtx.fillStyle = design.color === 'none' ? 'white' : design.color;
+      tempCtx.globalAlpha = design.color === 'none' ? 0.7 : 1;
       tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.globalAlpha = 1;
 
-      tempCtx.globalCompositeOperation = 'multiply';
-      tempCtx.drawImage(
-        patternImg,
-        0,
-        0,
-        patternImg.naturalWidth,
-        patternImg.naturalHeight,
-        0,
-        0,
-        tempCanvas.width / 0.78,
-        tempCanvas.height / 0.763,
-      );
-      tempCtx.globalCompositeOperation = 'source-over';
+      if (design.pattern !== 'none' && patternImg) {
+        tempCtx.globalCompositeOperation = 'multiply';
+        tempCtx.drawImage(
+          patternImg,
+          0,
+          0,
+          patternImg.naturalWidth,
+          patternImg.naturalHeight,
+          0,
+          0,
+          tempCanvas.width / 0.78,
+          tempCanvas.height / 0.763,
+        );
+        tempCtx.globalCompositeOperation = 'source-over';
+      }
 
-      const positions = [
-        { x: 40, y: 80.5, rotation: 5 },
-        { x: 55, y: 26, rotation: 5 },
-        { x: 43, y: 60, rotation: -10 },
-        { x: 61, y: 54, rotation: 5 },
-      ];
+      if (design.image !== 'none' && imageImg) {
+        const positions = [
+          { x: 40, y: 80.5, rotation: 5 },
+          { x: 55, y: 26, rotation: 5 },
+          { x: 43, y: 60, rotation: -10 },
+          { x: 61, y: 54, rotation: 5 },
+        ];
 
-      positions.forEach((pos) => {
-        const size = 24;
-        const x = (pos.x / 100) * tempCanvas.width;
-        const y = (pos.y / 100) * tempCanvas.height;
+        positions.forEach((pos) => {
+          const size = 24;
+          const x = (pos.x / 100) * tempCanvas.width;
+          const y = (pos.y / 100) * tempCanvas.height;
 
-        tempCtx.save();
-        tempCtx.translate(x, y);
-        tempCtx.rotate((pos.rotation * Math.PI) / 180);
-        tempCtx.drawImage(imageImg, -size / 2, -size / 2, size * 1.35, size * 0.96);
-        tempCtx.restore();
-      });
+          tempCtx.save();
+          tempCtx.translate(x, y);
+          tempCtx.rotate((pos.rotation * Math.PI) / 180);
+          tempCtx.drawImage(imageImg, -size / 2, -size / 2, size * 1.35, size * 0.96);
+          tempCtx.restore();
+        });
+      }
 
       ctx.drawImage(sockOutline, 0, 0, canvas.width, canvas.height);
       ctx.globalCompositeOperation = 'source-in';
@@ -250,7 +280,7 @@ export default function GenerateSocksPage() {
           >
             {options.colors.map((color) => (
               <option key={color} value={color}>
-                {color.charAt(0).toUpperCase() + color.slice(1)}
+                {color === 'none' ? 'Без цвета' : color.charAt(0).toUpperCase() + color.slice(1)}
               </option>
             ))}
           </select>
@@ -264,7 +294,7 @@ export default function GenerateSocksPage() {
           >
             {options.patterns.map((pattern) => (
               <option key={pattern} value={pattern}>
-                {pattern.charAt(0).toUpperCase() + pattern.slice(1)}
+                {pattern === 'none' ? 'Без узора' : pattern.charAt(0).toUpperCase() + pattern.slice(1)}
               </option>
             ))}
           </select>
@@ -278,7 +308,7 @@ export default function GenerateSocksPage() {
           >
             {options.images.map((image) => (
               <option key={image} value={image}>
-                {image.charAt(0).toUpperCase() + image.slice(1)}
+                {image === 'none' ? 'Без рисунка' : image.charAt(0).toUpperCase() + image.slice(1)}
               </option>
             ))}
           </select>
@@ -319,4 +349,3 @@ export default function GenerateSocksPage() {
     </div>
   );
 }
-//test

@@ -10,19 +10,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       color: {
-        type: Sequelize.ENUM('red', 'blue', 'pink'),
+        type: Sequelize.ENUM('none', 'red', 'blue', 'pink'),
         allowNull: false,
-        defaultValue: 'red'
+        defaultValue: 'none'
       },
       pattern: {
-        type: Sequelize.ENUM('stripes', 'dots', 'waves'),
+        type: Sequelize.ENUM('none', 'stripes', 'dots', 'waves'),
         allowNull: false,
-        defaultValue: 'stripes'
+        defaultValue: 'none'
       },
       image: {
-        type: Sequelize.ENUM('cat', 'cucumber', 'flower'),
+        type: Sequelize.ENUM('none', 'cat', 'cucumber', 'flower'),
         allowNull: false,
-        defaultValue: 'cat'
+        defaultValue: 'none'
       },
       genImage: {
         type: Sequelize.TEXT,
