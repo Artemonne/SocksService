@@ -8,25 +8,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Sock.init({
-    // Параметры с ENUM-ограничениями
     color: {
-      type: DataTypes.ENUM('none', 'red', 'blue', 'pink'), // 3 варианта цвета
+      type: DataTypes.ENUM('none', 'red', 'blue', 'pink', 'yellow', 'orange', 'purple'),
       allowNull: false,
       defaultValue: 'none'
     },
     pattern: {
-      type: DataTypes.ENUM('none', 'stripes', 'dots', 'waves'), // 3 варианта узора
+      type: DataTypes.ENUM('none', 'stripes', 'dots', 'waves', 'checkered'), 
       allowNull: false,
       defaultValue: 'none'
     },
     image: {
-      type: DataTypes.ENUM('none', 'cat', 'cucumber', 'flower'), // 3 варианта картинок
+      type: DataTypes.ENUM('none', 'cat', 'cucumber', 'flower', 'beer', 'heart'), 
       allowNull: false,
       defaultValue: 'none'
     },
-    // Готовое изображение
+    
+
     genImage: {
-      type: DataTypes.TEXT, // Base64 превью
+      type: DataTypes.TEXT,
       allowNull: false
     },
     price: {

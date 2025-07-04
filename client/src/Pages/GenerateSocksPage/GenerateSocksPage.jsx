@@ -8,9 +8,9 @@ import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
-    colors: ['none', 'red', 'blue', 'pink'],
-    patterns: ['none', 'stripes', 'dots', 'waves'],
-    images: ['none', 'cat', 'cucumber', 'flower'],
+    colors: ['none', 'red', 'blue', 'pink', 'yellow', 'orange', 'purple'],
+    patterns: ['none', 'stripes', 'dots', 'waves', 'checkered'],
+    images: ['none', 'cat', 'cucumber', 'flower', 'beer', 'heart'],
   });
 
   const [design, setDesign] = useState({
