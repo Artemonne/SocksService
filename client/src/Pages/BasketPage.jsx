@@ -164,6 +164,7 @@ export default function BasketPage({ user }) {
               alignItems: 'center',
               justifyContent: 'space-between',
               gap: '10px',
+              marginBottom: '70px',
             }}
           >
             <p>Сумма: {basketItems.total}</p>
