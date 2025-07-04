@@ -1,5 +1,5 @@
 .signup-form {
-  background: #F6F8F5;
+  background: #f6f8f5;
   border-radius: 1.5rem;
   box-shadow: 0 4px 24px 0 rgba(133, 140, 146, 0.08);
   max-width: 350px;
@@ -10,18 +10,18 @@
 
 .signup-form input {
   padding: 0.8rem 1rem;
-  border: 1.5px solid #C0C4C3;
+  border: 1.5px solid #c0c4c3;
   border-radius: 0.7rem;
   background: #fff;
-  color: #858C92;
+  color: #858c92;
   font-size: 1rem;
   transition: border 0.2s, box-shadow 0.2s;
 }
 
 .signup-form input:focus {
   outline: none;
-  border: 1.5px solid #F6D9DD;
-  box-shadow: 0 0 0 2px #F6D9DD33;
+  border: 1.5px solid #f6d9dd;
+  box-shadow: 0 0 0 2px #f6d9dd33;
 }
 
 .signup-form button {
@@ -33,10 +33,10 @@
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px 0 rgba(183, 168, 175, 0.10);
+  box-shadow: 0 2px 8px 0 rgba(183, 168, 175, 0.1);
 }
 
 .signup-form button:hover {
-  background: #F6D9DD;
+  background: #858c92;
   box-shadow: 0 4px 16px 0 rgba(246, 217, 221, 0.15);
 }

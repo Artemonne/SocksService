@@ -2,6 +2,7 @@ import './AuthPage.css';
 import { React, useState } from 'react';
 import SignUpForm from '../../features/auth/ui/SignUpForm/SignUpForm';
 import SignInForm from '../../features/auth/ui/SignInForm/SignInForm';
+import PropTypes from 'prop-types';
 
 export default function AuthPage({ setUser }) {
   const [authMode, setAuthMode] = useState('signIn');
@@ -35,3 +36,7 @@ export default function AuthPage({ setUser }) {
     </div>
   );
 }
+
+AuthPage.propTypes = {
+  setUser: PropTypes.func.isRequired,
+};
