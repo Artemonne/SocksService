@@ -15,12 +15,12 @@ module.exports = {
         defaultValue: 'none'
       },
       pattern: {
-        type: Sequelize.ENUM('none', 'stripes', 'dots', 'waves'),
+        type: Sequelize.ENUM('none', 'stripes', 'dots', 'waves', 'checkered'),
         allowNull: false,
         defaultValue: 'none'
       },
       image: {
-        type: Sequelize.ENUM('none', 'cat', 'cucumber', 'flower'),
+        type: Sequelize.ENUM('none', 'cat', 'cucumber', 'flower', 'beer', 'heart'),
         allowNull: false,
         defaultValue: 'none'
       },
