@@ -61,8 +61,8 @@ export default function BasketPage({ user }) {
         items: basketItems.items,
         total: basketItems.total,
       };
-      console.log(orderData, '***************')
-     
+      console.log(orderData, '***************');
+
       await axiosInstance.post('/order', orderData);
       setModal({ open: true, message: 'Заказ успешно отправлен!', success: true });
     } catch (error) {
@@ -82,7 +82,7 @@ export default function BasketPage({ user }) {
             <div
               key={item.id}
               style={{
-                border: '1px solid #eee',
+                border: '1px solid black',
                 borderRadius: 8,
                 padding: 16,
                 marginBottom: 12,
@@ -91,9 +91,6 @@ export default function BasketPage({ user }) {
                 width: '500px',
               }}
             >
-              <div style={{ fontWeight: 500 }}>
-                {(item.Sock && <img src={item.genImage} />) || `Товар #${item.id}`}
-              </div>
               <div
                 style={{
                   fontWeight: 500,
@@ -109,9 +106,8 @@ export default function BasketPage({ user }) {
                       src={item.Sock.genImage}
                       alt="sock"
                       style={{
-                        width: 80,
-                        height: 80,
-                        margin: '8px 0',
+                        width: 200,
+                        height: 200,
                         display: 'flex',
                         flexDirection: 'row',
                       }}
@@ -120,12 +116,13 @@ export default function BasketPage({ user }) {
                 </div>
                 <div
                   style={{
-                    width: 100,
-                    height: 100,
-                    margin: '8px 0',
+                    width: 120,
+                    height: 120,
+                    marginRight: '25px',
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
+                    fontFamily: "'Comic Sans MS', cursive", fontSize: "18px",
                   }}
                 >
                   Цена: {item.price} ₽
@@ -137,20 +134,43 @@ export default function BasketPage({ user }) {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    gap: '10px',
+                    gap: '5px',
+                    padding: '8px 8px',
+                    margin: '15px',
+                    background: 'white',
+                    border: '1px solid black',
+                    borderRadius: 8,
                   }}
                 >
                   <button
                     onClick={() => handleUpdateQuantity(item.sockId, item.quantity + 1)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.scale = '1.2')}
+                    onMouseOut={(e) => (e.currentTarget.style.scale = '1')}
                   >
-                    +
+                    ➕
                   </button>
-                  <p>{item.quantity}</p>
+                  <p
+                    style={{
+                      fontFamily: "Comic Sans MS",
+                    }}
+                  >
+                    {item.quantity}
+                  </p>
                   <button
                     onClick={() => handleUpdateQuantity(item.sockId, item.quantity - 1)}
                     disabled={item.quantity <= 0}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.scale = '1.2')}
+                    onMouseOut={(e) => (e.currentTarget.style.scale = '1')}
                   >
-                    -
+                    ➖
                   </button>
                 </div>
               </div>
