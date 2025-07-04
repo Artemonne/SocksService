@@ -7,6 +7,34 @@ import { UserApi } from '../../entities/user/UserApi';
 import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
+  // Словарь переводов для параметров
+  const translations = {
+    colors: {
+      none: 'Без цвета',
+      red: 'Красный',
+      blue: 'Синий',
+      pink: 'Розовый',
+      yellow: 'Жёлтый',
+      orange: 'Оранжевый',
+      purple: 'Фиолетовый'
+    },
+    patterns: {
+      none: 'Без узора',
+      stripes: 'В полоску',
+      dots: 'В горошек',
+      waves: 'Волны',
+      checkered: 'В клеточку'
+    },
+    images: {
+      none: 'Без рисунка',
+      cat: 'Котик',
+      cucumber: 'Огурчик',
+      flower: 'Цветочек',
+      beer: 'Пивко',
+      heart: 'Сердечко'
+    }
+  };
+
   const [options] = useState({
     colors: ['none', 'red', 'blue', 'pink', 'yellow', 'orange', 'purple'],
     patterns: ['none', 'stripes', 'dots', 'waves', 'checkered'],
@@ -286,7 +314,7 @@ export default function GenerateSocksPage() {
           >
             {options.colors.map((color) => (
               <option key={color} value={color}>
-                {color === 'none' ? 'Без цвета' : color.charAt(0).toUpperCase() + color.slice(1)}
+                {translations.colors[color]}
               </option>
             ))}
           </select>
@@ -300,7 +328,7 @@ export default function GenerateSocksPage() {
           >
             {options.patterns.map((pattern) => (
               <option key={pattern} value={pattern}>
-                {pattern === 'none' ? 'Без узора' : pattern.charAt(0).toUpperCase() + pattern.slice(1)}
+                {translations.patterns[pattern]}
               </option>
             ))}
           </select>
@@ -314,7 +342,7 @@ export default function GenerateSocksPage() {
           >
             {options.images.map((image) => (
               <option key={image} value={image}>
-                {image === 'none' ? 'Без рисунка' : image.charAt(0).toUpperCase() + image.slice(1)}
+                {translations.images[image]}
               </option>
             ))}
           </select>
