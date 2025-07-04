@@ -3,8 +3,8 @@ import { setAccessToken } from '../../shared/lib/axiosInstance';
 import './Header.css';
 import { NavLink } from 'react-router';
 import { React } from 'react';
-import logo from '../../../public/assets/Yuliana.jpg'
-import thread from '../../../public/assets/Noto_Emoji_v2.034_1f9f6.svg.png'
+import logo from '../../../public/assets/Yuliana.jpg';
+import thread from '../../../public/assets/Noto_Emoji_v2.034_1f9f6.svg.png';
 
 export default function Header({ user, setUser }) {
   const signOutHandler = async () => {
@@ -33,7 +33,11 @@ export default function Header({ user, setUser }) {
           Главная
         </NavLink>
       </div>
-      <img src={logo} className='logo' alt='Наикрасивейший логотип'></img>
+      <NavLink
+        to="/"
+      >
+        <img src={logo} className="logo" alt="Наикрасивейший логотип"></img>
+      </NavLink>
       <div className="header-right">
         {!user ? (
           <NavLink
@@ -45,22 +49,24 @@ export default function Header({ user, setUser }) {
             Аутентификация
           </NavLink>
         ) : (
-          <div className='emoji'>
-          <NavLink
+          <div className="emoji">
+            <NavLink
               to="/generateSocks"
               className={({ isActive }) =>
-                `header_link thread-link ${isActive ? 'header_link--active thread-active' : ''}`
+                `header_link thread-link ${
+                  isActive ? 'header_link--active thread-active' : ''
+                }`
               }
             >
-              <img src={thread} className='thread' alt='a ball of thread'></img>
+              <img src={thread} className="thread" alt="a ball of thread"></img>
             </NavLink>
-           <NavLink
+            <NavLink
               to="/favourites"
               className={({ isActive }) =>
                 `header_link ${isActive ? 'header_link--active' : ''}`
               }
             >
-              {({isActive}) => <span>{isActive? '❤️': '🖤'}</span>}
+              {({ isActive }) => <span>{isActive ? '❤️' : '🖤'}</span>}
             </NavLink>
             <NavLink
               to="/basket"
