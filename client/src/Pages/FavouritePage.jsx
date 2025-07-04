@@ -71,11 +71,13 @@ export default function FavouritePage({ user }) {
               <div
                 key={item.id}
                 style={{
-                  border: '1px solid #eee',
+                  border: '1px solid',
                   borderRadius: 8,
+                  background: '#ffffff70',
                   padding: 16,
-                  marginBottom: 12,
+                  marginBottom: 14,
                   display: 'flex',
+                  position: 'relative',
                 }}
               >
                 <div>
@@ -95,7 +97,19 @@ export default function FavouritePage({ user }) {
                       style={{ width: 80, height: 100, margin: '8px 0' }}
                     />
                   )}
-                  <div>Цена: {item.price} ₽</div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      fontFamily: "'Comic Sans MS', cursive",
+                      fontSize: '18px',
+                      position: 'absolute',
+                      left: '120px',
+                      bottom: '20px'
+                    }}
+                  >
+                    Цена: {item.price} ₽
+                  </div>
                 </div>
                 <div>
                   <button
