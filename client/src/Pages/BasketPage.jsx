@@ -126,7 +126,7 @@ export default function BasketPage({ user }) {
             <div
               key={item.id || item.sockId}
               style={{
-                border: '1px solid #eee',
+                border: '1px solid black',
                 borderRadius: 8,
                 padding: 16,
                 marginBottom: 12,
@@ -137,14 +137,7 @@ export default function BasketPage({ user }) {
               }}
             >
               <div style={{ fontWeight: 500 }}>
-                {(item.Sock && (
-                  <img
-                    src={item.Sock.genImage}
-                    alt="sock"
-                    style={{ width: 80, height: 80 }}
-                  />
-                )) ||
-                  `Товар #${item.id}`}
+                {(item.Sock && <img src={item.genImage} />) || `Товар #${item.id}`}
               </div>
               <div
                 style={{
@@ -153,11 +146,33 @@ export default function BasketPage({ user }) {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  width: '100%',
-                  marginLeft: 16,
                 }}
               >
-                <div style={{ width: 100, display: 'flex', alignItems: 'center' }}>
+                <div>
+                  {item.Sock?.genImage && (
+                    <img
+                      src={item.Sock.genImage}
+                      alt="sock"
+                      style={{
+                        width: 80,
+                        height: 80,
+                        margin: '8px 0',
+                        display: 'flex',
+                        flexDirection: 'row',
+                      }}
+                    />
+                  )}
+                </div>
+                <div
+                  style={{
+                    width: 100,
+                    height: 100,
+                    margin: '8px 0',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
                   Цена: {item.price} ₽
                 </div>
                 <div
@@ -168,14 +183,25 @@ export default function BasketPage({ user }) {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     gap: '10px',
-                    width: 100,
                   }}
                 >
                   <button
+                    onClick={() => handleUpdateQuantity(item.sockId, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                  <p>{item.quantity}</p>
+                  <button
                     onClick={() => handleUpdateQuantity(item.sockId, item.quantity - 1)}
                     disabled={item.quantity <= 0}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.scale = '1.2')}
+                    onMouseOut={(e) => (e.currentTarget.style.scale = '1')}
                   >
-                    -
+                    ➖
                   </button>
                   <p style={{ margin: 0 }}>{item.quantity}</p>
                   <button
@@ -217,6 +243,7 @@ export default function BasketPage({ user }) {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '10px',
+              marginBottom: '70px',
             }}
           >
             <p>Сумма: {basketItems.total} ₽</p>

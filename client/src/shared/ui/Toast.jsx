@@ -13,7 +13,7 @@ export default function Toast({ message, duration = 3000, onClose }) {
       position: 'fixed',
       bottom: 20,
       right: 20,
-      backgroundColor: 'pink',
+      backgroundColor: '#37BC9B',
       color: 'white',
       padding: '12px 24px',
       borderRadius: 8,
