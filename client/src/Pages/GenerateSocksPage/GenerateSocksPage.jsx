@@ -8,7 +8,7 @@ import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
   const [options] = useState({
-    colors: ['none', 'red', 'blue', 'pink'],
+    colors: ['none', 'red', 'blue', 'pink', 'yellow'],
     patterns: ['none', 'stripes', 'dots', 'waves'],
     images: ['none', 'cat', 'cucumber', 'flower'],
   });
