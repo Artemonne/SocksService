@@ -46,7 +46,7 @@ export default function Header({ user, setUser }) {
               `header_link ${isActive ? 'header_link--active' : ''}`
             }
           >
-            Аутентификация
+            Вход
           </NavLink>
         ) : (
           <div className="emoji">
