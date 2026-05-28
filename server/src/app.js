@@ -11,8 +11,14 @@ serverConfig(app);
 const PORT = process.env.PORT || 3001;
 app.use('/api', indexRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+if (process.env.NETLIFY) {
+  app.use('/', indexRouter);
+}
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
+}
 
 module.exports = app;
