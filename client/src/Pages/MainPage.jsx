@@ -32,6 +32,14 @@ export default function MainPage() {
       <button className="main-generate-btn" onClick={handlerGenerate}>
         Связать свои носки
       </button>
+      <a
+        className="code-link"
+        href="https://github.com/Artemonne/SocksService/tree/dev"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ↗ Посмотреть код на GitHub
+      </a>
     </>
   );
 }
