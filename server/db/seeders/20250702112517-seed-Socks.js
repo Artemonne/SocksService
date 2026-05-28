@@ -9,7 +9,7 @@ module.exports = {
           color: "none", // Пример носка без цвета
           pattern: "none", // Пример носка без узора
           image: "none", // Пример носка без изображения
-          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", // Base64 прозрачного носка
+          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", // Пример прозрачного носка
           price: 80, // Цена для "пустого" носка
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -18,7 +18,7 @@ module.exports = {
           color: "red",
           pattern: "stripes",
           image: "cat",
-          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", // пример Base64
+          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", 
           price: 100,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -27,7 +27,7 @@ module.exports = {
           color: "blue",
           pattern: "dots",
           image: "cucumber",
-          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", // пример Base64
+          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", 
           price: 150,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -36,7 +36,7 @@ module.exports = {
           color: "pink",
           pattern: "waves",
           image: "flower",
-          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...", // пример Base64
+          genImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
           price: 120,
           createdAt: new Date(),
           updatedAt: new Date(),

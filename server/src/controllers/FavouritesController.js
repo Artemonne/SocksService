@@ -5,9 +5,7 @@ class FavouritesController {
   static async addFavourite(req, res) {
     try {
       const { userId, sockId } = req.body;
-      // console.log('--------------,', userId);
 
-      
 
       // Проверяем, существует ли уже такая запись
       const existingFavourite = await Favourite.findOne({

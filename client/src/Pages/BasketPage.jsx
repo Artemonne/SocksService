@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { BasketApi } from '../entities/basket/BasketApi';
 import { axiosInstance } from '../shared/lib/axiosInstance';
+import './BasketPage.css';
 
 export default function BasketPage({ user }) {
   const userId = user?.id;
@@ -18,7 +19,7 @@ export default function BasketPage({ user }) {
       setLoading(true);
       try {
         const response = await BasketApi.getBasket(userId);
-        setBasketItems(response.data || response); // теперь basketItems — объект { items, total }
+        setBasketItems(response.data || response);
       } catch (error) {
         console.error('Ошибка при загрузке корзины', error);
       } finally {
@@ -29,17 +30,6 @@ export default function BasketPage({ user }) {
       fetchBasket();
     }
   }, [userId]);
-
-  // const handleAddToBasket = async (sockId) => {
-  //   try {
-  //     await BasketApi.addToBasket(userId, sockId);
-  //     // Обновить корзину
-  //     const updated = await BasketApi.getBasket(userId);
-  //     setBasketItems(updated.data || updated);
-  //   } catch (error) {
-  //     console.error('Ошибка при добавлении в корзину', error);
-  //   }
-  // };
 
   const handleUpdateQuantity = async (sockId, quantity) => {
     try {
@@ -53,11 +43,11 @@ export default function BasketPage({ user }) {
 
   if (loading) return <div>Загрузка корзины...</div>;
 
-  //? продолжить
+
   const handleOrder = async () => {
     try {
       const orderData = {
-        user: { id: userId, name: userName, email: userEmail }, // заполните актуальными данными
+        user: { id: userId, name: userName, email: userEmail },
         items: basketItems.items,
         total: basketItems.total,
       };
@@ -188,7 +178,7 @@ export default function BasketPage({ user }) {
             }}
           >
             <p>Сумма: {basketItems.total}</p>
-            <button onClick={handleOrder}>Оформить заказ</button>
+            <button className="checkout-button" onClick={handleOrder}>Оформить заказ</button>
           </div>
           {modal.open && (
             <div
@@ -216,7 +206,10 @@ export default function BasketPage({ user }) {
               >
                 <h3>{modal.success ? 'Успех' : 'Ошибка'}</h3>
                 <p>{modal.message}</p>
-                <button onClick={() => setModal({ ...modal, open: false })}>
+                <button
+                  className="checkout-button checkout-button--modal"
+                  onClick={() => setModal({ ...modal, open: false })}
+                >
                   Закрыть
                 </button>
               </div>

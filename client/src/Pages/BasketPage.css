@@ -1,0 +1,43 @@
+.checkout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  padding: 12px 28px;
+  border: 1px solid #2f2528;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #2f2528;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(47, 37, 40, 0.18);
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.checkout-button:hover {
+  background-color: #dda5b2;
+  box-shadow: 0 7px 14px rgba(47, 37, 40, 0.14);
+}
+
+.checkout-button:active {
+  box-shadow: 0 2px 6px rgba(47, 37, 40, 0.12);
+  transform: translateY(1px);
+}
+
+.checkout-button:focus-visible {
+  outline: 2px solid #2f2528;
+  outline-offset: 3px;
+}
+
+.checkout-button--modal {
+  min-width: 120px;
+  padding: 9px 20px;
+  font-size: 14px;
+}

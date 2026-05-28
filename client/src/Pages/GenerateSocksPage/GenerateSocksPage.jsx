@@ -7,7 +7,6 @@ import { UserApi } from '../../entities/user/UserApi';
 import Toast from '../../shared/ui/Toast';
 
 export default function GenerateSocksPage() {
-  // Словарь переводов для параметров
   const translations = {
     colors: {
       none: 'Без цвета',

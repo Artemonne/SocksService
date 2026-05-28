@@ -17,8 +17,6 @@ export class BasketApi {
       const response = await axiosInstance.get(`/basket/${userId}`);
       return response.data;
     } catch (error) {
-      // Можно пробросить ошибку выше или вернуть дефолтное значение
-      // throw error;
       return { items: [], total: 0, error: error?.response?.data || error.message };
     }
   }
