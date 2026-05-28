@@ -65,7 +65,7 @@ export default function FavouritePage({ user }) {
         }}
       >
         {!favourites || favourites.length === 0 ? (
-          <p>Список избранного пуст</p>
+          <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Список избранного пуст</p>
         ) : (
           <>
             {favourites.map((item) => (

@@ -65,7 +65,7 @@ export default function BasketPage({ user }) {
   return (
     <div>
       {!basketItems.items || basketItems.items.length === 0 ? (
-        <p>Корзина пуста</p>
+        <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Корзина пуста</p>
       ) : (
         <>
           {basketItems.items.map((item) => (
