@@ -41,7 +41,7 @@ export default function BasketPage({ user }) {
     }
   };
 
-  if (loading) return <div>Загрузка корзины...</div>;
+  if (loading) return <div style={{ fontFamily: "'Comic Sans MS', cursive" }}>Загрузка корзины...</div>;
 
 
   const handleOrder = async () => {
@@ -177,7 +177,7 @@ export default function BasketPage({ user }) {
               marginBottom: '70px',
             }}
           >
-            <p>Сумма: {basketItems.total}</p>
+            <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Сумма: {basketItems.total}</p>
             <button className="checkout-button" onClick={handleOrder}>Оформить заказ</button>
           </div>
           {modal.open && (

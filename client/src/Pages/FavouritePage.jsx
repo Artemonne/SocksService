@@ -33,7 +33,7 @@ export default function FavouritePage({ user }) {
     }
   };
 
-  if (loading) return <div>Загрузка избранного...</div>;
+  if (loading) return <div style={{ fontFamily: "'Comic Sans MS', cursive" }}>Загрузка избранного...</div>;
 
   return (
     <>
