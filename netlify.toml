@@ -4,7 +4,11 @@
   functions = "server/netlify/functions"
 
 [functions]
-  included_files = ["server/db/**"]
+  node_bundler = "esbuild"
+  included_files = [
+    "server/db/database.js",
+    "server/db/models/*.js"
+  ]
   external_node_modules = ["pg", "pg-hstore", "sequelize"]
 
 [[redirects]]

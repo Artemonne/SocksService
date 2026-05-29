@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const serverConfig = (app) => {
 
   app.use(cors(corsConfig));
-  app.options('*', cors(corsConfig));
+  app.options('/{*splat}', cors(corsConfig));
 
   app.use(morgan('dev'));
 
