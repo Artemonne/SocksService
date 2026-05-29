@@ -5,6 +5,7 @@
 
 [functions]
   included_files = ["server/db/**"]
+  external_node_modules = ["pg", "pg-hstore", "sequelize"]
 
 [[redirects]]
   from = "/api/*"
