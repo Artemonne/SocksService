@@ -17,7 +17,9 @@ export class UserApi {
   }
 
   static async signOut() {
-    const { data } = await axiosInstance.get('/auth/signOut');
+    const { data } = await axiosInstance.get('/auth/signOut', {
+      withCredentials: true,
+    });
     return data;
   }
 

@@ -162,7 +162,7 @@ class UserController {
 
       return res
         .status(200)
-        .cookie('refreshToken', refreshToken, cookieConfig)
+        .cookie('refreshToken', refreshToken, cookieConfig.refresh)
         .json(
           formatResponse(200, 'Успешный вход', { user: userFound, accessToken })
         );
@@ -176,8 +176,12 @@ class UserController {
 
   static signOut(req, res) {
     try {
+      const refreshCookieOptions = { ...cookieConfig.refresh };
+      delete refreshCookieOptions.maxAge;
+      delete refreshCookieOptions.expires;
+
       res
-        .clearCookie('refreshToken')
+        .clearCookie('refreshToken', refreshCookieOptions)
         .json(formatResponse(200, 'Успешно вышли'));
     } catch ({ message }) {
       console.log('=============UserController.signOut=============', message);

@@ -1,22 +1,4 @@
 {
-  "name": "socksservice",
-  "version": "1.0.0",
-  "description": "Веб-приложение для создания кастомного дизайна носков. Пользователь выбирает цвет, узор и картинку, видит результат в реальном времени, добавляет дизайн в избранное или корзину и может оформить заказ.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Artemonne/SocksService.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Artemonne/SocksService/issues"
-  },
-  "homepage": "https://github.com/Artemonne/SocksService#readme",
   "dependencies": {
     "pg": "^8.21.0",
     "pg-hstore": "^2.3.4",

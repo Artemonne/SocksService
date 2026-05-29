@@ -26,7 +26,12 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const prevRequest = error.config;
 
-    if (error.response?.status === 403 && !prevRequest) {
+    if (
+      error.response?.status === 403 &&
+      prevRequest &&
+      !prevRequest.sent &&
+      !prevRequest.url?.includes('/auth/refreshTokens')
+    ) {
       try {
         const { data } = await axiosInstance.get('/auth/refreshTokens');
         setAccessToken(data.data.accessToken);
@@ -41,5 +46,7 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
     }
+
+    return Promise.reject(error);
   }
 );

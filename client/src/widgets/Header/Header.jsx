@@ -1,12 +1,14 @@
 import { UserApi } from '../../entities/user/UserApi';
 import { setAccessToken } from '../../shared/lib/axiosInstance';
 import './Header.css';
-import { NavLink } from 'react-router';
+import { NavLink, useNavigate } from 'react-router';
 import { React } from 'react';
 import logo from '../../../public/assets/Yuliana.jpg';
 import thread from '../../../public/assets/Noto_Emoji_v2.034_1f9f6.svg.png';
 
 export default function Header({ user, setUser }) {
+  const navigate = useNavigate();
+
   const signOutHandler = async () => {
     try {
       const { statusCode, error, message } = await UserApi.signOut();
@@ -17,6 +19,7 @@ export default function Header({ user, setUser }) {
       }
       setUser(null);
       setAccessToken('');
+      navigate('/', { replace: true });
     } catch (error) {
       console.log(error);
     }

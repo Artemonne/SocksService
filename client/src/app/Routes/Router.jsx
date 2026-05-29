@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router';
+import { Navigate, Routes, Route, useLocation } from 'react-router';
 import { useEffect, useState, React } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { UserApi } from '../../entities/user/UserApi.js';
@@ -14,15 +14,28 @@ import  {PageTransition}  from '../../widgets/PageTransition.jsx';
 
 export default function Router() {
   const [user, setUser] = useState(null);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    UserApi.refreshTokens().then((serverResponse) => {
-      if (serverResponse.error) return;
-      setUser(serverResponse.data.user);
-      setAccessToken(serverResponse.data.accessToken);
-    });
+    UserApi.refreshTokens()
+      .then((serverResponse) => {
+        if (serverResponse?.error) return;
+        setUser(serverResponse.data.user);
+        setAccessToken(serverResponse.data.accessToken);
+      })
+      .catch(() => {
+        setUser(null);
+        setAccessToken('');
+      })
+      .finally(() => setIsAuthChecked(true));
   }, []);
+
+  const protectedElement = (element) => {
+    if (!isAuthChecked) return null;
+    if (!user) return <Navigate to="/" replace />;
+    return element;
+  };
 
   return (
     <AnimatePresence mode='wait'>
@@ -38,19 +51,19 @@ export default function Router() {
           />
           <Route 
             path="/basket" 
-            element={
+            element={protectedElement(
               <PageTransition>
                 <BasketPage user={user}/>
               </PageTransition>
-            } 
+            )}
           />
           <Route 
             path="/favourites" 
-            element={
+            element={protectedElement(
               <PageTransition>
                 <FavouritePage user={user}/>
               </PageTransition>
-            } 
+            )}
           />
           <Route 
             path="/auth" 
@@ -62,11 +75,11 @@ export default function Router() {
           />
           <Route
             path="/generateSocks"
-            element={
+            element={protectedElement(
               <PageTransition>
                 <GenerateSocksPage />
               </PageTransition>
-            }
+            )}
           />
         </Route>
         <Route 
