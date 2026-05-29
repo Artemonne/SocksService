@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { FavouriteApi } from '../entities/favourite/FavouriteApi';
-import { UserApi } from '../entities/user/UserApi';
 
 export default function FavouritePage({ user }) {
   const userId = user?.id;
@@ -9,6 +8,7 @@ export default function FavouritePage({ user }) {
 
   useEffect(() => {
     async function fetchFavourites() {
+      setLoading(true);
       try {
         const response = await FavouriteApi.getFavourites(userId);
         setFavourites(response.data || response);
@@ -33,18 +33,18 @@ export default function FavouritePage({ user }) {
     }
   };
 
-  if (loading) return <div style={{ fontFamily: "'Comic Sans MS', cursive" }}>Загрузка избранного...</div>;
+  if (loading) return <div className="comic-text">Загрузка избранного...</div>;
 
   return (
     <>
       <div
+        className="comic-text"
         style={{
           maxWidth: 900,
           margin: '0 auto',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          fontFamily: "'Comic Sans MS', cursive",
           fontSize: '25px',
         }}
       >
@@ -65,7 +65,7 @@ export default function FavouritePage({ user }) {
         }}
       >
         {!favourites || favourites.length === 0 ? (
-          <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Список избранного пуст</p>
+          <p className="comic-text">Список избранного пуст</p>
         ) : (
           <>
             {favourites.map((item) => (
@@ -99,10 +99,10 @@ export default function FavouritePage({ user }) {
                     />
                   )}
                   <div
+                    className="comic-text"
                     style={{
                       display: 'flex',
                       justifyContent: 'center',
-                      fontFamily: "'Comic Sans MS', cursive",
                       fontSize: '18px',
                       position: 'absolute',
                       left: '120px',

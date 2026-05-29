@@ -41,7 +41,7 @@ export default function BasketPage({ user }) {
     }
   };
 
-  if (loading) return <div style={{ fontFamily: "'Comic Sans MS', cursive" }}>Загрузка корзины...</div>;
+  if (loading) return <div className="comic-text">Загрузка корзины...</div>;
 
 
   const handleOrder = async () => {
@@ -65,7 +65,7 @@ export default function BasketPage({ user }) {
   return (
     <div>
       {!basketItems.items || basketItems.items.length === 0 ? (
-        <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Корзина пуста</p>
+        <p className="comic-text">Корзина пуста</p>
       ) : (
         <>
           {basketItems.items.map((item) => (
@@ -112,8 +112,9 @@ export default function BasketPage({ user }) {
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
-                    fontFamily: "'Comic Sans MS', cursive", fontSize: "18px",
+                    fontSize: '18px',
                   }}
+                  className="comic-text"
                 >
                   Цена: {item.price} ₽
                 </div>
@@ -144,9 +145,7 @@ export default function BasketPage({ user }) {
                     ➕
                   </button>
                   <p
-                    style={{
-                      fontFamily: "Comic Sans MS",
-                    }}
+                    className="comic-text"
                   >
                     {item.quantity}
                   </p>
@@ -177,7 +176,7 @@ export default function BasketPage({ user }) {
               marginBottom: '70px',
             }}
           >
-            <p style={{ fontFamily: "'Comic Sans MS', cursive" }}>Сумма: {basketItems.total}</p>
+            <p className="comic-text">Сумма: {basketItems.total}</p>
             <button className="checkout-button" onClick={handleOrder}>Оформить заказ</button>
           </div>
           {modal.open && (
